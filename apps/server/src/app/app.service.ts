@@ -8,14 +8,14 @@ export class AppService {
     private appRepository: AppRepository,
   ) {}
   
-  getData(id: string): Promise<AppEntitiy> {
+  getNote(id: string): Promise<AppEntitiy> {
     try{
         return this.appRepository.findOne(id)
       }catch {
         throw new Error()
       }
     }
-  getAllData(): Promise<AppEntitiy[]> {
+  getAllNotes(): Promise<AppEntitiy[]> {
     try{
         return this.appRepository.findAll()
       }catch {
@@ -23,11 +23,14 @@ export class AppService {
       }
     }
     
-    saveData(component:string): Promise<string> {
+    saveNote(component:string): Promise<string> {
       return this.appRepository.create(component)
   }
+    updateNote(id:string, component:string): Promise<void> {
+      return this.appRepository.update(id,component)
+  }
 
-    removeData(id:string): Promise<void> {
+    removeNote(id:string): Promise<void> {
       return this.appRepository.remove(id)
   }
 }

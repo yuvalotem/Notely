@@ -19,9 +19,7 @@ export class AppRepository {
 
   async create(component: string): Promise<string> {
     try{
-      console.log('inside create', component);
       const entity = await this.appRepository.save({ component })
-      console.log('got entitiy after creation', entity);
       
       return entity?.id;
       }
@@ -29,6 +27,10 @@ export class AppRepository {
         console.error(e)
         throw new Error('couldnt create component')
       }
+  }
+
+  async update(id: string,component: string): Promise<void> {
+    await this.appRepository.update(id, { component });
   }
 
   async remove(id: string): Promise<void> {

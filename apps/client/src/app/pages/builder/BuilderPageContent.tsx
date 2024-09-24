@@ -1,27 +1,52 @@
-import { useRef, useState } from 'react'
-import { PageHeader } from '../../layout'
-import { PageBody } from '../../layout/PageBody'
-import { BuidlerPreview } from './BuidlerPreview'
-import { StyleBar } from './StyleBar'
+import { useEffect } from 'react'
 import { Button } from '../../components'
+import { PageHeader } from '../../layout'
+import { NoteProps } from '../my-notes/Note'
+import { BuidlerPreview } from './BuidlerPreview'
 import { useBuilderContext } from './BuilderContext'
+import { StyleBar } from './StyleBar'
+import parseStringfyHtmlToReactElement from 'html-react-parser'
 
-export const BuilderPageContent = () => {
-  const { sourceCode } = useBuilderContext()
+export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
+  const { sourceCode, setSourceCode, setText, setStyle } = useBuilderContext()
+
+  useEffect(() => {
+    if (!note) {
+      return
+    }
+    setSourceCode(note.component)
+    const elm = parseStringfyHtmlToReactElement(note.component)
+    if (typeof elm == 'object' && 'props' in elm) {
+      elm.props.children && setText(elm.props.children)
+      elm.props.style && setStyle(elm.props.style)
+    }
+  }, [note])
 
   const onCreate = () => {
     if (!sourceCode) {
       return
     }
-    fetch(`http://localhost:8000/api`, {
-      method: 'POST',
-      body: JSON.stringify({ component: sourceCode }),
-      headers: {
-        'content-type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://localhost:8000',
-        'Referrer-Policy': 'no-referrer',
-      },
-    })
+    if (note) {
+      fetch(`http://localhost:8000/api/${note.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ component: sourceCode }),
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:8000',
+          'Referrer-Policy': 'no-referrer',
+        },
+      })
+    } else {
+      fetch(`http://localhost:8000/api`, {
+        method: 'POST',
+        body: JSON.stringify({ component: sourceCode }),
+        headers: {
+          'content-type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:8000',
+          'Referrer-Policy': 'no-referrer',
+        },
+      })
+    }
   }
 
   return (

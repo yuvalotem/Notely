@@ -2,6 +2,7 @@ import { useEffect, useRef, type FC } from 'react'
 import { useBuilderContext } from './BuilderContext'
 
 export const BuidlerPreview: FC<{}> = () => {
+  const { text, style, setSourceCode } = useBuilderContext()
   const {
     backgroundColor,
     borderRadius,
@@ -10,9 +11,7 @@ export const BuidlerPreview: FC<{}> = () => {
     width,
     height,
     color,
-    text,
-    setSourceCode,
-  } = useBuilderContext()
+  } = style ?? {}
   const embeddedElementRef = useRef<HTMLDivElement>(null)
   const sourceCode = embeddedElementRef.current?.outerHTML
 

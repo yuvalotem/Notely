@@ -1,4 +1,5 @@
 import {
+  CSSProperties,
   FC,
   PropsWithChildren,
   createContext,
@@ -12,20 +13,8 @@ type BuilderContextValues = {
   setSourceCode: (text?: string) => void
   text: string
   setText: (text: string) => void
-  backgroundColor?: string
-  setBackgroundColor: (backgroundColor: string) => void
-  width: string
-  setWidth: (width: string) => void
-  height: string
-  setHeight: (height: string) => void
-  borderRadius: string
-  setBorderRadius: (borderRadius: string) => void
-  borderWidth: string
-  setBorderWidth: (borderWidth: string) => void
-  padding: string
-  setPadding: (padding: string) => void
-  color?: string
-  setColor: (color: string) => void
+  style?: CSSProperties
+  setStyle: React.Dispatch<React.SetStateAction<CSSProperties | undefined>>
 }
 
 export const useBuilderContext = () => {
@@ -37,32 +26,14 @@ const BuilderContext = createContext<BuilderContextValues>({
   setSourceCode: () => {},
   text: '',
   setText: () => {},
-  backgroundColor: '',
-  setBackgroundColor: () => {},
-  width: '',
-  setWidth: () => {},
-  height: '',
-  setHeight: () => {},
-  borderRadius: '',
-  setBorderRadius: () => {},
-  borderWidth: '',
-  setBorderWidth: () => {},
-  padding: '',
-  setPadding: () => {},
-  color: '',
-  setColor: () => {},
+  style: undefined,
+  setStyle: () => {},
 })
 
 export const BuilderContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [sourceCode, setSourceCode] = useState<string>()
+  const [style, setStyle] = useState<CSSProperties>()
   const [text, setText] = useState('This is my new note!')
-  const [width, setWidth] = useState<string>('300px')
-  const [height, setHeight] = useState<string>('50px')
-  const [backgroundColor, setBackgroundColor] = useState<string>()
-  const [borderRadius, setBorderRadius] = useState<string>('0px')
-  const [borderWidth, setBorderWidth] = useState<string>('2px')
-  const [padding, setPadding] = useState<string>('4px')
-  const [color, setColor] = useState<string>()
 
   return (
     <BuilderContext.Provider
@@ -72,41 +43,10 @@ export const BuilderContextProvider: FC<PropsWithChildren> = ({ children }) => {
           setSourceCode,
           text,
           setText,
-          backgroundColor,
-          setBackgroundColor,
-          width,
-          setWidth,
-          height,
-          setHeight,
-          borderRadius,
-          setBorderRadius,
-          borderWidth,
-          setBorderWidth,
-          padding,
-          setPadding,
-          color,
-          setColor,
+          style,
+          setStyle,
         }),
-        [
-          sourceCode,
-          setSourceCode,
-          text,
-          setText,
-          backgroundColor,
-          setBackgroundColor,
-          width,
-          setWidth,
-          height,
-          setHeight,
-          borderRadius,
-          setBorderRadius,
-          borderWidth,
-          setBorderWidth,
-          padding,
-          setPadding,
-          color,
-          setColor,
-        ]
+        [sourceCode, setSourceCode, text, setText, style, setStyle]
       )}
     >
       {children}

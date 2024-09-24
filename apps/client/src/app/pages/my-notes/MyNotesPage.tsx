@@ -17,9 +17,8 @@ export const MyNotesPage = () => {
           'Referrer-Policy': 'no-referrer',
         },
       })
-      const newComp = await res.json()
-      console.log('newComp', newComp)
-      setNotes(newComp)
+      const newNotes = await res.json()
+      setNotes(newNotes)
     }
     loadNotes()
   }, [])

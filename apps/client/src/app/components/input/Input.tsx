@@ -29,4 +29,4 @@ export const Input = (props: InputProps) => {
   return <input {...props} className={finalClassName} />
 }
 
-const inputBaseStyle = 'px-2 py-0.5 rounded border-2 border-gray-500'
+const inputBaseStyle = 'px-2 py-0.5 rounded border-[1px] border-gray-500'

@@ -1,28 +1,21 @@
-import { ChangeEventHandler, useState } from 'react'
+import { CSSProperties, ChangeEventHandler, useState } from 'react'
 import { Button, CodeEditor, ColorPicker, Input } from '../../components'
 import { useBuilderContext } from './BuilderContext'
 
 export const StyleBar = () => {
+  const { sourceCode, setSourceCode, style, setStyle, text, setText } =
+    useBuilderContext()
   const {
-    sourceCode,
-    setSourceCode,
     backgroundColor,
-    setBackgroundColor,
-    width,
-    setWidth,
-    height,
-    setHeight,
-    borderRadius,
-    setBorderRadius,
-    borderWidth,
-    setBorderWidth,
-    padding,
-    setPadding,
     color,
-    setColor,
-    text,
-    setText,
-  } = useBuilderContext()
+    width,
+    height,
+    borderRadius,
+    borderWidth,
+    padding,
+  } = style ?? {}
+  const setStyleAttribute = (key: keyof CSSProperties) => (val: string) =>
+    setStyle((oldStyle) => ({ ...oldStyle, [key]: val }))
 
   /**
    * Generates an event handler for an input field that calls the provided callback
@@ -64,33 +57,41 @@ export const StyleBar = () => {
             <ColorPicker
               label="Background Color"
               color={backgroundColor}
-              onChange={setBackgroundColor}
+              onChange={setStyleAttribute('backgroundColor')}
             />
-            <ColorPicker label="Color" color={color} onChange={setColor} />
+            <ColorPicker
+              label="Color"
+              color={color}
+              onChange={setStyleAttribute('color')}
+            />
             <span>Width </span>
             <Input
               value={width}
-              onChange={generateInputEventHandler(setWidth)}
+              onChange={generateInputEventHandler(setStyleAttribute('width'))}
             />
             <span>Height </span>
             <Input
               value={height}
-              onChange={generateInputEventHandler(setHeight)}
+              onChange={generateInputEventHandler(setStyleAttribute('height'))}
             />
             <span>Border Radius</span>
             <Input
               value={borderRadius}
-              onChange={generateInputEventHandler(setBorderRadius)}
+              onChange={generateInputEventHandler(
+                setStyleAttribute('borderRadius')
+              )}
             />
             <span>Border Width</span>
             <Input
               value={borderWidth}
-              onChange={generateInputEventHandler(setBorderWidth)}
+              onChange={generateInputEventHandler(
+                setStyleAttribute('borderWidth')
+              )}
             />
             <span>Padding</span>
             <Input
               value={padding}
-              onChange={generateInputEventHandler(setPadding)}
+              onChange={generateInputEventHandler(setStyleAttribute('padding'))}
             />
           </div>
           <span>text</span>

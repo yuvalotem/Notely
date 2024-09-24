@@ -1,4 +1,5 @@
-import { Controller, Get,Post,Body, Response, Param, Delete } from '@nestjs/common';
+import { Controller, Get,Post,Body, Response, Param, Delete, Put } from '@nestjs/common';
+import { Response as ResponseType } from 'express';
 
 import { AppService } from './app.service';
 
@@ -11,37 +12,30 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/:id')
-  async getData(@Param() params: any,@Response() res: any) {
-    console.log('inside get', params)
-    if(params.id === 'all'){
-      const data = await this.appService.getAllData();
-      console.log('data',data);
+  async getData(@Param('id') id: string, @Response() res: ResponseType) {
+    if(id === 'all'){
+      const data = await this.appService.getAllNotes();
       return res.status(200).json(data);
       }
-      const data = await this.appService.getData(params.id);
-      console.log('data',data);
+      const data = await this.appService.getNote(id);
       return res.status(200).json(data);
   }
 
-  // @Get('/all')
-  // async getAllData(@Response() res: any) {
-  //   const data = await this.appService.getAllData();
-  //   console.log('data',data);
-  //   return res.status(200).json(data);
-  // }
-
   @Post()
-  async saveData(@Body() createCompDto: CreateCompDto, @Response() res: any) {
-    console.log('inside post', createCompDto)
-    const id = await this.appService.saveData(createCompDto.component)
-    console.log('after create id',id);
+  async saveData(@Body() createCompDto: CreateCompDto, @Response() res: ResponseType) {
+    const id = await this.appService.saveNote(createCompDto.component)
     return res.status(204).json({ id });
+  }
+  
+  @Put('/:id')
+  async updateData(@Body() createCompDto: CreateCompDto, @Param('id') id: string, @Response() res: ResponseType) {    
+    await this.appService.updateNote(id, createCompDto.component)
+    return res.status(200).json();
   }
 
   @Delete('/:id')
-  async deleteData(@Param() params: any, @Response() res: any) {
-    console.log('inside delete', params)
-    await this.appService.removeData(params.id);
-    return res.status(204).json();
+  async deleteData(@Param('id') id: string, @Response() res: ResponseType) {
+    await this.appService.removeNote(id);
+    return res.status(200).json();
   }
 }

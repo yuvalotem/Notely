@@ -10,6 +10,7 @@ export function AppRouter() {
         path={appRoutes.home.path + appRoutes.home.sub.path}
         element={<BuilderPage />}
       />
+      <Route path={appRoutes.note.path} element={<BuilderPage />} />
       <Route
         path={appRoutes.settings.path}
         element={<div>{appRoutes.settings.title}</div>}
