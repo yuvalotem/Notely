@@ -1,11 +1,8 @@
-import {
-  Button as MuiButton,
-  ButtonProps as MuiButtonProps,
-} from '@mui/material'
+import { cva } from 'class-variance-authority'
 import { PropsWithChildren, forwardRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-type ButtonVariant = 'primary' | 'secondary' | 'text' | 'outlined' | 'danger'
+type ButtonVariant = 'primary' | 'secondary' | 'text' | 'danger'
 export type ButtonProps = PropsWithChildren<{
   className?: string
   onClick?: () => void
@@ -13,14 +10,15 @@ export type ButtonProps = PropsWithChildren<{
    * @default 'primary'
    */
   variant?: ButtonVariant
+  size?: 'small' | 'medium' | 'large'
   disabled?: boolean
 }>
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, variant = 'primary', ...props }, ref) => {
+  ({ className, children, variant, size, ...props }, ref) => {
     return (
       <button
-        className={twMerge(baseButtonStyle, buttonStyles[variant], className)}
+        className={twMerge(buttonStyles({ intent: variant, size }), className)}
         ref={ref}
         {...props}
       >
@@ -30,12 +28,38 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 )
 
-const baseButtonStyle = 'w-fit py-1 px-4 rounded'
-
-const buttonStyles: Record<ButtonVariant, string> = {
-  outlined: 'border-2 border-black',
-  primary: 'bg-blue-500 text-white hover:bg-blue-700',
-  secondary: 'bg-white text-black',
-  text: 'text-black hover:bg-gray-200',
-  danger: 'text-white bg-red-500 hover:bg-red-700',
-}
+const buttonStyles = cva(['font-semibold', 'border', 'rounded'], {
+  variants: {
+    intent: {
+      primary: [
+        'bg-blue-500',
+        'text-white',
+        'border-transparent',
+        'hover:bg-blue-600',
+      ],
+      secondary: [
+        'bg-white',
+        'text-gray-800',
+        'border-gray-400',
+        'hover:bg-gray-100',
+      ],
+      text: ['text-black', 'border-none', 'hover:bg-gray-200'],
+      danger: ['text-white', 'bg-red-500', 'hover:bg-red-700'],
+    },
+    size: {
+      small: ['text-xs', 'py-0.5', 'px-1'],
+      medium: ['text-sm', 'py-1', 'px-2'],
+      large: ['text-base', 'py-2', 'px-4'],
+    },
+  },
+  compoundVariants: [
+    {
+      intent: 'primary',
+      size: 'medium',
+    },
+  ],
+  defaultVariants: {
+    intent: 'primary',
+    size: 'medium',
+  },
+})

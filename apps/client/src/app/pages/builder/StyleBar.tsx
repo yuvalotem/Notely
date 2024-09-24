@@ -1,9 +1,11 @@
-import { ChangeEventHandler } from 'react'
-import { ColorPicker, Input } from '../../components'
-import { useBuilderPageContext } from './BuilderPageContext'
+import { ChangeEventHandler, useState } from 'react'
+import { Button, CodeEditor, ColorPicker, Input } from '../../components'
+import { useBuilderContext } from './BuilderContext'
 
 export const StyleBar = () => {
   const {
+    sourceCode,
+    setSourceCode,
     backgroundColor,
     setBackgroundColor,
     width,
@@ -20,7 +22,7 @@ export const StyleBar = () => {
     setColor,
     text,
     setText,
-  } = useBuilderPageContext()
+  } = useBuilderContext()
 
   /**
    * Generates an event handler for an input field that calls the provided callback
@@ -34,43 +36,81 @@ export const StyleBar = () => {
     (e) =>
       callback(e.target.value)
 
+  const [showSourceCode, setShowSourceCode] = useState(false)
+  const isSourceCodeVisible = showSourceCode && sourceCode
+  const [editorValue, setEditorValue] = useState<string>()
+
+  const hadnleEditorChange = (val?: string) => {
+    setSourceCode(val)
+    setEditorValue(val)
+  }
+
+  const title = isSourceCodeVisible ? 'Source Code' : 'Style'
+
   return (
-    <div className="mr-4 p-2 border-2 w-1/3 h-fit">
-      <h1 className="mb-2">Note Style</h1>
-      <div className="grid grid-cols-2 gap-2">
-        <ColorPicker
-          label="Background Color"
-          color={backgroundColor}
-          onChange={setBackgroundColor}
+    <div
+      className={`mr-4 p-2 border-2 w-${isSourceCodeVisible ? 2 : 1}/3 h-full`}
+    >
+      <h1 className="mb-2">{title}</h1>
+      {isSourceCodeVisible ? (
+        <CodeEditor
+          value={editorValue ?? sourceCode}
+          onChange={hadnleEditorChange}
+          height={'80vh'}
         />
-        <ColorPicker label="Color" color={color} onChange={setColor} />
-        <span>Width </span>
-        <Input value={width} onChange={generateInputEventHandler(setWidth)} />
-        <span>Height </span>
-        <Input value={height} onChange={generateInputEventHandler(setHeight)} />
-        <span>Border Radius</span>
-        <Input
-          value={borderRadius}
-          onChange={generateInputEventHandler(setBorderRadius)}
-        />
-        <span>Border Width</span>
-        <Input
-          value={borderWidth}
-          onChange={generateInputEventHandler(setBorderWidth)}
-        />
-        <span>Padding</span>
-        <Input
-          value={padding}
-          onChange={generateInputEventHandler(setPadding)}
-        />
-      </div>
-      <span className="mb-2">text</span>
-      <Input
-        value={text}
-        onChange={generateInputEventHandler(setText)}
-        className="w-full"
-        variant="multiline"
-      />
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-2">
+            <ColorPicker
+              label="Background Color"
+              color={backgroundColor}
+              onChange={setBackgroundColor}
+            />
+            <ColorPicker label="Color" color={color} onChange={setColor} />
+            <span>Width </span>
+            <Input
+              value={width}
+              onChange={generateInputEventHandler(setWidth)}
+            />
+            <span>Height </span>
+            <Input
+              value={height}
+              onChange={generateInputEventHandler(setHeight)}
+            />
+            <span>Border Radius</span>
+            <Input
+              value={borderRadius}
+              onChange={generateInputEventHandler(setBorderRadius)}
+            />
+            <span>Border Width</span>
+            <Input
+              value={borderWidth}
+              onChange={generateInputEventHandler(setBorderWidth)}
+            />
+            <span>Padding</span>
+            <Input
+              value={padding}
+              onChange={generateInputEventHandler(setPadding)}
+            />
+          </div>
+          <span>text</span>
+          <Input
+            value={text}
+            onChange={generateInputEventHandler(setText)}
+            className="w-full mt-2"
+            variant="multiline"
+          />
+        </>
+      )}
+      {sourceCode && (
+        <Button
+          variant="primary"
+          onClick={() => setShowSourceCode(!showSourceCode)}
+          className="mt-2 w-40"
+        >
+          {showSourceCode ? 'Show Style' : 'Show Source'}
+        </Button>
+      )}
     </div>
   )
 }

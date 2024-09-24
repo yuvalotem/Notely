@@ -1,17 +1,7 @@
-import {
-  RefObject,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  type FC,
-} from 'react'
-import { useBuilderPageContext } from './BuilderPageContext'
-import { Button } from '../../components'
+import { useEffect, useRef, type FC } from 'react'
+import { useBuilderContext } from './BuilderContext'
 
-export const BuidlerPreview: FC<{ setSourceCode: (val?: string) => void }> = ({
-  setSourceCode,
-}) => {
+export const BuidlerPreview: FC<{}> = () => {
   const {
     backgroundColor,
     borderRadius,
@@ -21,17 +11,17 @@ export const BuidlerPreview: FC<{ setSourceCode: (val?: string) => void }> = ({
     height,
     color,
     text,
-  } = useBuilderPageContext()
-  const [showSourceCode, setShowSourceCode] = useState(false)
+    setSourceCode,
+  } = useBuilderContext()
   const embeddedElementRef = useRef<HTMLDivElement>(null)
   const sourceCode = embeddedElementRef.current?.outerHTML
-  const isSourceCodeVisible = showSourceCode && sourceCode
 
   useEffect(() => {
     setSourceCode(sourceCode)
   }, [sourceCode])
+
   return (
-    <div className="w-1/3 h-full">
+    <div className="w-1/3 h-full mt-2">
       <div
         style={{
           backgroundColor,
@@ -46,14 +36,6 @@ export const BuidlerPreview: FC<{ setSourceCode: (val?: string) => void }> = ({
       >
         {text}
       </div>
-      <Button
-        variant="primary"
-        onClick={() => setShowSourceCode(!showSourceCode)}
-        className="mt-2 w-40"
-      >
-        {showSourceCode ? 'Hide' : 'Show'} source
-      </Button>
-      <div>{isSourceCodeVisible ? sourceCode : ''}</div>
     </div>
   )
 }

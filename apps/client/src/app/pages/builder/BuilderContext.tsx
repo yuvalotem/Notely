@@ -7,7 +7,9 @@ import {
   useState,
 } from 'react'
 
-type BuilderPageContext = {
+type BuilderContextValues = {
+  sourceCode?: string
+  setSourceCode: (text?: string) => void
   text: string
   setText: (text: string) => void
   backgroundColor?: string
@@ -26,11 +28,13 @@ type BuilderPageContext = {
   setColor: (color: string) => void
 }
 
-export const useBuilderPageContext = () => {
-  return useContext(BuilderPageContext)
+export const useBuilderContext = () => {
+  return useContext(BuilderContext)
 }
 
-const BuilderPageContext = createContext<BuilderPageContext>({
+const BuilderContext = createContext<BuilderContextValues>({
+  sourceCode: '',
+  setSourceCode: () => {},
   text: '',
   setText: () => {},
   backgroundColor: '',
@@ -49,9 +53,8 @@ const BuilderPageContext = createContext<BuilderPageContext>({
   setColor: () => {},
 })
 
-export const BuilderPageContextProvider: FC<PropsWithChildren> = ({
-  children,
-}) => {
+export const BuilderContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [sourceCode, setSourceCode] = useState<string>()
   const [text, setText] = useState('This is my new note!')
   const [width, setWidth] = useState<string>('300px')
   const [height, setHeight] = useState<string>('50px')
@@ -62,9 +65,11 @@ export const BuilderPageContextProvider: FC<PropsWithChildren> = ({
   const [color, setColor] = useState<string>()
 
   return (
-    <BuilderPageContext.Provider
+    <BuilderContext.Provider
       value={useMemo(
         () => ({
+          sourceCode,
+          setSourceCode,
           text,
           setText,
           backgroundColor,
@@ -83,6 +88,8 @@ export const BuilderPageContextProvider: FC<PropsWithChildren> = ({
           setColor,
         }),
         [
+          sourceCode,
+          setSourceCode,
           text,
           setText,
           backgroundColor,
@@ -91,7 +98,6 @@ export const BuilderPageContextProvider: FC<PropsWithChildren> = ({
           setWidth,
           height,
           setHeight,
-          ,
           borderRadius,
           setBorderRadius,
           borderWidth,
@@ -104,6 +110,6 @@ export const BuilderPageContextProvider: FC<PropsWithChildren> = ({
       )}
     >
       {children}
-    </BuilderPageContext.Provider>
+    </BuilderContext.Provider>
   )
 }

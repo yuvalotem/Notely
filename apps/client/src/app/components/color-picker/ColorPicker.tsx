@@ -19,19 +19,26 @@ export const ColorPicker = ({
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false)
   return (
     <>
-      <ClickAwayListener onClickAway={() => setIsColorPickerOpen(false)}>
+      <>
         <Button
           onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
           ref={colorPopperRef}
-          variant="text"
+          variant="secondary"
           className={className}
         >
           {label}
         </Button>
-      </ClickAwayListener>
-      <Popper open={isColorPickerOpen} anchorEl={colorPopperRef.current}>
-        <SketchPicker color={color} onChange={(val) => onChange(val.hex)} />
-      </Popper>
+        {isColorPickerOpen && (
+          <ClickAwayListener onClickAway={() => setIsColorPickerOpen(false)}>
+            <Popper open={isColorPickerOpen} anchorEl={colorPopperRef.current}>
+              <SketchPicker
+                color={color}
+                onChange={(val) => onChange(val.hex)}
+              />
+            </Popper>
+          </ClickAwayListener>
+        )}
+      </>
     </>
   )
 }

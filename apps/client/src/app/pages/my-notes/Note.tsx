@@ -18,7 +18,7 @@ export const Note = ({ component, id }: NoteProps) => {
   }
 
   return (
-    <div className="w-fit mt-2 border-2 p-2">
+    <div className="w-fit mt-2 border-2 p-2 max-h-80 overflow-scroll">
       <div className="flex flex-row justify-between mb-4 items-center">
         Note
         <Button onClick={onDelete} variant="danger" className="py-0 px-1">
