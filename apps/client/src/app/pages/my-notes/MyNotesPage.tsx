@@ -1,27 +1,24 @@
-import { useEffect, useState } from 'react'
 import { PageHeader } from '../../layout'
 import { PageBody } from '../../layout/PageBody'
 import { appRoutes } from '../../routes'
 import { MyNotesPageActions } from './MyNotesPageActions'
 import { Note, NoteProps } from './Note'
+import { QueryKeys, useQueryData } from '../../api'
 
 export const MyNotesPage = () => {
-  const [notes, setNotes] = useState<NoteProps[]>([])
+  const {
+    isFetching,
+    isLoading,
+    data: notes,
+  } = useQueryData<NoteProps[]>({
+    url: 'notes/all',
+    queryKey: [QueryKeys.Notes],
+  })
 
-  useEffect(() => {
-    async function loadNotes() {
-      const res = await fetch(`http://localhost:8000/api/all`, {
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:8000',
-          'Referrer-Policy': 'no-referrer',
-        },
-      })
-      const newNotes = await res.json()
-      setNotes(newNotes)
-    }
-    loadNotes()
-  }, [])
+  if (isFetching || isLoading) {
+    return <MyNotesPageSkeletons />
+  }
+
   return (
     <div className="w-full h-full">
       <PageHeader
@@ -29,10 +26,14 @@ export const MyNotesPage = () => {
         actions={<MyNotesPageActions />}
       />
       <PageBody className="flex flex-row h-fit gap-2">
-        {notes.map((note) => (
+        {notes?.map((note) => (
           <Note key={note.id} {...note} />
         ))}
       </PageBody>
     </div>
   )
+}
+
+const MyNotesPageSkeletons = () => {
+  return <div className="w-full h-full">Loading...</div>
 }

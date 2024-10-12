@@ -6,9 +6,28 @@ import { BuidlerPreview } from './BuidlerPreview'
 import { useBuilderContext } from './BuilderContext'
 import { StyleBar } from './StyleBar'
 import parseStringfyHtmlToReactElement from 'html-react-parser'
+import { QueryKeys, usePostMutation, usePutMutation } from '../../api'
+import { useSnackbarProvider } from '../../ContextProviders'
+import { useNavigate } from 'react-router-dom'
 
 export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
   const { sourceCode, setSourceCode, setText, setStyle } = useBuilderContext()
+  const navigate = useNavigate()
+  const { showSnackbar } = useSnackbarProvider()
+  const craeteNote = usePostMutation({
+    url: `notes`,
+    queryKey: [QueryKeys.Notes],
+    onSuccess: () => {
+      navigate('/')
+    },
+  })
+  const updateNote = usePutMutation({
+    url: `notes/${note?.id ?? ''}`,
+    queryKey: [QueryKeys.Notes, QueryKeys.Note, ...(note?.id ? [note.id] : [])],
+    onSuccess: () => {
+      showSnackbar({ message: 'Note updated successfully' })
+    },
+  })
 
   useEffect(() => {
     if (!note) {
@@ -27,25 +46,9 @@ export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
       return
     }
     if (note) {
-      fetch(`http://localhost:8000/api/${note.id}`, {
-        method: 'PUT',
-        body: JSON.stringify({ component: sourceCode }),
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:8000',
-          'Referrer-Policy': 'no-referrer',
-        },
-      })
+      updateNote.mutate({ body: { component: sourceCode } })
     } else {
-      fetch(`http://localhost:8000/api`, {
-        method: 'POST',
-        body: JSON.stringify({ component: sourceCode }),
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:8000',
-          'Referrer-Policy': 'no-referrer',
-        },
-      })
+      craeteNote.mutate({ body: { component: sourceCode } })
     }
   }
 
@@ -60,8 +63,8 @@ export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
         }
       />
       <div className="flex flex-row h-full">
-        <StyleBar />
         <BuidlerPreview />
+        <StyleBar />
       </div>
     </div>
   )

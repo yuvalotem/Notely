@@ -1,34 +1,31 @@
 import { BuilderPageContent } from './BuilderPageContent'
 import { BuilderContextProvider } from './BuilderContext'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import { NoteProps } from '../my-notes/Note'
+import { QueryKeys, useQueryData } from '../../api'
 
 export const BuilderPage = () => {
   const { id } = useParams()
-  const [note, setNote] = useState<NoteProps>()
+  const {
+    isFetching,
+    isLoading,
+    data: note,
+  } = useQueryData<NoteProps>({
+    url: `notes/${id}`,
+    queryKey: [QueryKeys.Note, ...(id ? [id] : [])],
+  })
 
-  useEffect(() => {
-    async function loadNotes() {
-      if (!id) {
-        return
-      }
-      const res = await fetch(`http://localhost:8000/api/${id}`, {
-        headers: {
-          'content-type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:8000',
-          'Referrer-Policy': 'no-referrer',
-        },
-      })
-      const newNote = await res.json()
-      setNote(newNote)
-    }
-    loadNotes()
-  }, [id])
+  if (isFetching || isLoading) {
+    return <BuilderPageContentSkeleton />
+  }
 
   return (
     <BuilderContextProvider>
       <BuilderPageContent note={note} />
     </BuilderContextProvider>
   )
+}
+
+const BuilderPageContentSkeleton = () => {
+  return <div className="w-full h-full">Loading...</div>
 }

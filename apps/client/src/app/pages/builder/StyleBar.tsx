@@ -41,9 +41,7 @@ export const StyleBar = () => {
   const title = isSourceCodeVisible ? 'Source Code' : 'Style'
 
   return (
-    <div
-      className={`mr-4 p-2 border-2 w-${isSourceCodeVisible ? 2 : 1}/3 h-full`}
-    >
+    <div className={`mr-4 p-2 border-2 w-1/2 h-full`}>
       <h1 className="mb-2">{title}</h1>
       {isSourceCodeVisible ? (
         <CodeEditor
