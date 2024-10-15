@@ -26,7 +26,7 @@ export const BuidlerPreview: FC<{}> = () => {
   }, [sourceCode])
 
   return (
-    <div className="flex justify-center w-1/2 mt-8">
+    <div className="flex items-start justify-center w-1/2 mt-8">
       <div
         style={{
           backgroundColor,

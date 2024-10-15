@@ -13,6 +13,7 @@ export const BuilderPage = () => {
   } = useQueryData<NoteProps>({
     url: `notes/${id}`,
     queryKey: [QueryKeys.Note, ...(id ? [id] : [])],
+    enabled: !!id,
   })
 
   if (isFetching || isLoading) {

@@ -62,7 +62,7 @@ export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
           </Button>
         }
       />
-      <div className="flex flex-row h-full">
+      <div className="flex flex-row">
         <BuidlerPreview />
         <StyleBar />
       </div>

@@ -1,14 +1,22 @@
-import { useQuery, useMutation, QueryClient } from 'react-query'
+import {
+  useQuery,
+  useMutation,
+  QueryClient,
+  UseQueryOptions,
+  UseMutationOptions,
+} from 'react-query'
 import { Delete, Get, Post, Put, RequestParams } from '../requests'
 import { useHandleApiRequestError } from '../helpers'
 import { QueryKeys } from './consts'
 
-export type QueryDataParams = {
+type CommonReactQueryParams = {
   url: string
   queryKey: (QueryKeys | string)[]
   headers?: Record<string, string | number | string[]>
-  onError?: () => void
 }
+
+export type QueryDataParams<T> = Omit<UseQueryOptions<T>, 'queryKey'> &
+  CommonReactQueryParams
 
 export const queryClient = new QueryClient()
 
@@ -25,19 +33,25 @@ export const useQueryData = <T>({
   url,
   headers,
   onError,
-}: QueryDataParams) => {
+  ...rest
+}: QueryDataParams<T>) => {
   const handleApiRequestError = useHandleApiRequestError(onError)
   return useQuery<T>({
     queryKey,
     queryFn: () => Get({ url, headers }),
     onError: handleApiRequestError,
+    ...rest,
   })
 }
 
-export type RawMutationParams = QueryDataParams & {
-  onSuccess?: () => void
-  apiFunction: <T>(params: RequestParams) => Promise<T>
-}
+export type RawMutationParams<T, E, P> = Omit<
+  UseMutationOptions<T, E, P>,
+  'onError' | 'queryKey'
+> &
+  CommonReactQueryParams & {
+    apiFunction: <T>(params: RequestParams) => Promise<T>
+    onError?: (err: unknown) => void
+  }
 /**
  * use react query mutation with predefined api function
  */
@@ -48,21 +62,21 @@ export const useRawMutation = <T, E, P>({
   onError,
   apiFunction,
   ...params
-}: RawMutationParams) => {
+}: RawMutationParams<T, E, P>) => {
   const handleApiRequestError = useHandleApiRequestError(onError)
   return useMutation<T, E, P>({
     mutationFn: (requestParams) =>
       apiFunction({ url, ...params, ...(requestParams ?? {}) }),
-    onSuccess: () => {
+    onSuccess: (data, variables, context) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey })
-      onSuccess?.()
+      onSuccess?.(data, variables, context)
     },
     onError: handleApiRequestError,
   })
 }
 
-type MutationParams = Omit<RawMutationParams, 'apiFunction'>
+type MutationParams<T, E, P> = Omit<RawMutationParams<T, E, P>, 'apiFunction'>
 
 /**
  * use Post request
@@ -72,7 +86,7 @@ type MutationParams = Omit<RawMutationParams, 'apiFunction'>
  * @returns
  * @see https://react-query.tanstack.com/reference/useMutation
  */
-export const usePostMutation = <T, E>(params: MutationParams) =>
+export const usePostMutation = <T, E, P>(params: MutationParams<T, E, P>) =>
   useRawMutation({ ...params, apiFunction: Post })
 
 /**
@@ -83,7 +97,7 @@ export const usePostMutation = <T, E>(params: MutationParams) =>
  * @returns
  * @see https://react-query.tanstack.com/reference/useMutation
  */
-export const usePutMutation = <T, E>(params: MutationParams) =>
+export const usePutMutation = <T, E, P>(params: MutationParams<T, E, P>) =>
   useRawMutation({ ...params, apiFunction: Put })
 
 /**
@@ -95,5 +109,5 @@ export const usePutMutation = <T, E>(params: MutationParams) =>
  * @see https://react-query.tanstack.com/reference/useMutation
  */
 export const useDeleteMutation = <T = void, E = unknown, P = void>(
-  params: MutationParams
+  params: MutationParams<T, E, P>
 ) => useRawMutation<T, E, P>({ ...params, apiFunction: Delete })

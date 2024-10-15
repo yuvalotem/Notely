@@ -1,7 +1,7 @@
 import { useSnackbarProvider } from '../../ContextProviders'
 
 export const useHandleApiRequestError = (
-  callback?: (error: string) => void
+  callback?: <E, P>(error: E, variables?: P, context?: unknown) => void
 ) => {
   const { showSnackbar } = useSnackbarProvider()
 
