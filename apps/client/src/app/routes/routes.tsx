@@ -1,36 +1,70 @@
 import HomeIcon from '@mui/icons-material/Home'
+import NotesIcon from '@mui/icons-material/Notes'
 import SettingsIcon from '@mui/icons-material/Settings'
-import PersonIcon from '@mui/icons-material/Person'
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark'
 import Note from '@mui/icons-material/Note'
+import { FunctionComponent } from 'react'
+import { SvgIconProps } from '@mui/material'
 
-export const appRoutes = {
+type RouteOptions = {
+  path: string
+  title: string
+  hiddenFromNavbar?: boolean
+  Icon: FunctionComponent<SvgIconProps>
+}
+
+type NestedAppRoutes = Record<
+  string,
+  RouteOptions & { sub?: Record<string, RouteOptions> }
+>
+
+export const nestedAppRoutes: NestedAppRoutes = {
   home: {
     path: '/',
-    title: 'My Notes',
-    icon: <HomeIcon />,
-    sub: {
-      path: '/create',
-    },
+    title: 'Home',
+    Icon: HomeIcon,
   },
-  profile: {
-    path: '/profile',
-    title: 'Profile',
-    icon: <PersonIcon />,
+  notes: {
+    path: '/notes',
+    title: 'My Notes',
+    Icon: NotesIcon,
+    sub: {
+      createNote: {
+        path: '/create',
+        title: 'My Notes',
+        Icon: HomeIcon,
+        hiddenFromNavbar: true,
+      },
+    },
   },
   note: {
     path: '/note/:id',
     title: 'Note',
-    icon: <Note />,
+    Icon: Note,
+    hiddenFromNavbar: true,
   },
   settings: {
     path: '/settings',
     title: 'Settings',
-    icon: <SettingsIcon />,
-  },
-  help: {
-    path: '/help',
-    title: 'Help',
-    icon: <QuestionMarkIcon />,
+    Icon: SettingsIcon,
   },
 }
+
+const flattenRoutes = (routes: NestedAppRoutes): Record<string, RouteOptions> =>
+  Object.entries(routes).reduce(
+    (acc, [key, route]) => ({
+      ...acc,
+      [key]: route,
+      ...(route.sub
+        ? Object.entries(route.sub).reduce(
+            (subAcc, [subKey, subRoute]) => ({
+              ...subAcc,
+              [subKey]: { ...subRoute, path: `${route.path}${subRoute.path}` },
+            }),
+            {}
+          )
+        : {}),
+    }),
+    {}
+  )
+
+export const appRoutes = flattenRoutes(nestedAppRoutes)

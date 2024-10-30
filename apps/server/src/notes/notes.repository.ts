@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { NoteEntitiy } from './note.entitiy'
+import { NoteBody } from './types'
 
 @Injectable()
 export class NotesRepository {
@@ -18,9 +19,9 @@ export class NotesRepository {
     return this.appRepository.findOneBy({ id })
   }
 
-  async create(component: string): Promise<string> {
+  async create(note: NoteBody): Promise<string> {
     try {
-      const entity = await this.appRepository.save({ component })
+      const entity = await this.appRepository.save(note)
 
       return entity?.id
     } catch (e) {
@@ -29,8 +30,8 @@ export class NotesRepository {
     }
   }
 
-  async update(id: string, component: string): Promise<void> {
-    await this.appRepository.update(id, { component })
+  async update(id: string, note: Partial<NoteBody>): Promise<void> {
+    await this.appRepository.update(id, note)
   }
 
   async remove(id: string): Promise<void> {

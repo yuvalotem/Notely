@@ -7,4 +7,10 @@ export class NoteEntitiy {
 
   @Column()
   component: string
+
+  @Column()
+  appId: string
+
+  @Column()
+  name: string
 }

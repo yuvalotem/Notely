@@ -1,34 +1,35 @@
 import { Injectable } from '@nestjs/common'
 import { NotesRepository } from './notes.repository'
 import { NoteEntitiy } from './note.entitiy'
+import { NoteBody } from './types'
 
 @Injectable()
 export class NotesService {
-  constructor(private appRepository: NotesRepository) {}
+  constructor(private notesRepository: NotesRepository) {}
 
   getNote(id: string): Promise<NoteEntitiy> {
     try {
-      return this.appRepository.findOne(id)
+      return this.notesRepository.findOne(id)
     } catch {
       throw new Error()
     }
   }
   getAllNotes(): Promise<NoteEntitiy[]> {
     try {
-      return this.appRepository.findAll()
+      return this.notesRepository.findAll()
     } catch {
       throw new Error()
     }
   }
 
-  saveNote(component: string): Promise<string> {
-    return this.appRepository.create(component)
+  saveNote(note: NoteBody): Promise<string> {
+    return this.notesRepository.create(note)
   }
-  updateNote(id: string, component: string): Promise<void> {
-    return this.appRepository.update(id, component)
+  updateNote(id: string, note: Partial<NoteBody>): Promise<void> {
+    return this.notesRepository.update(id, note)
   }
 
   removeNote(id: string): Promise<void> {
-    return this.appRepository.remove(id)
+    return this.notesRepository.remove(id)
   }
 }

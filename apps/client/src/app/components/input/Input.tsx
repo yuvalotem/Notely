@@ -10,7 +10,7 @@ type HtmlTextAreaProps = React.DetailedHTMLProps<
 >
 
 export type InputProps =
-  | ({} & HtmlInputProps)
+  | ({ onValueChange?: (value: string) => void } & HtmlInputProps)
   | ({
       variant: 'multiline'
     } & HtmlTextAreaProps)
@@ -26,7 +26,12 @@ export const Input = (props: InputProps) => {
   if (inputVariantGuard(props)) {
     return <textarea cols={40} rows={5} {...props} className={finalClassName} />
   }
-  return <input {...props} className={finalClassName} />
+  const { onChange: _onChange, onValueChange, ...rest } = props
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onValueChange?.(e.target.value)
+    _onChange?.(e)
+  }
+  return <input {...rest} onChange={onChange} className={finalClassName} />
 }
 
-const inputBaseStyle = 'px-2 py-0.5 rounded border-[1px] border-gray-500'
+const inputBaseStyle = 'px-2 py-0.5 rounded border-[1px] border-gray-200'

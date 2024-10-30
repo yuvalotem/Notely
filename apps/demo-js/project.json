@@ -1,0 +1,26 @@
+{
+  "name": "demo-js",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/demo-js/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "main": "apps/demo-js/src/main.ts",
+        "outputPath": "dist/apps/demo-js",
+        "tsConfig": "apps/demo-js/tsconfig.app.json"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "demo-js:build",
+        "spa": true
+      }
+    }
+  }
+}

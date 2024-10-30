@@ -38,10 +38,10 @@ export const StyleBar = () => {
     setEditorValue(val)
   }
 
-  const title = isSourceCodeVisible ? 'Source Code' : 'Style'
+  const title = isSourceCodeVisible ? 'Source Code' : 'Creaete and Customize'
 
   return (
-    <div className={`mr-4 p-2 border-2 w-1/2 h-full`}>
+    <div className={`mr-4 p-2 border-[1px] border-t-0 w-1/2 h-full`}>
       <h1 className="mb-2">{title}</h1>
       {isSourceCodeVisible ? (
         <CodeEditor
@@ -92,7 +92,6 @@ export const StyleBar = () => {
               onChange={generateInputEventHandler(setStyleAttribute('padding'))}
             />
           </div>
-          <span>text</span>
           <Input
             value={text}
             onChange={generateInputEventHandler(setText)}

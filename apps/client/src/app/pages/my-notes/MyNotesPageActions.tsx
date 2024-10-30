@@ -7,7 +7,7 @@ export const MyNotesPageActions = () => {
 
   return (
     <div>
-      <Button onClick={() => navigate(appRoutes.home.sub.path)}>
+      <Button onClick={() => navigate(appRoutes.createNote.path)}>
         Create new note
       </Button>
     </div>

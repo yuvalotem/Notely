@@ -13,6 +13,10 @@ type BuilderContextValues = {
   setSourceCode: (text?: string) => void
   text: string
   setText: (text: string) => void
+  name: string
+  setName: (name: string) => void
+  appId?: string
+  setAppId: (appId: string) => void
   style?: CSSProperties
   setStyle: React.Dispatch<React.SetStateAction<CSSProperties | undefined>>
 }
@@ -26,14 +30,31 @@ const BuilderContext = createContext<BuilderContextValues>({
   setSourceCode: () => {},
   text: '',
   setText: () => {},
+  name: '',
+  setName: () => {},
+  appId: '',
+  setAppId: () => {},
   style: undefined,
   setStyle: () => {},
 })
 
-export const BuilderContextProvider: FC<PropsWithChildren> = ({ children }) => {
+const DEFAULT_STYLE: CSSProperties = {
+  backgroundColor: 'white',
+  color: 'black',
+  width: 'fit-content',
+  height: 'fit-content',
+  borderRadius: '0px',
+  borderWidth: '1px',
+  padding: '4px',
+}
+export const BuilderContextProvider: FC<
+  PropsWithChildren<{ noteAppId?: string }>
+> = ({ children, noteAppId }) => {
   const [sourceCode, setSourceCode] = useState<string>()
-  const [style, setStyle] = useState<CSSProperties>()
+  const [style, setStyle] = useState<CSSProperties | undefined>(DEFAULT_STYLE)
   const [text, setText] = useState('This is my new note!')
+  const [name, setName] = useState('')
+  const [appId, setAppId] = useState<string | undefined>(noteAppId)
 
   return (
     <BuilderContext.Provider
@@ -43,10 +64,25 @@ export const BuilderContextProvider: FC<PropsWithChildren> = ({ children }) => {
           setSourceCode,
           text,
           setText,
+          appId,
+          setAppId,
           style,
           setStyle,
+          name,
+          setName,
         }),
-        [sourceCode, setSourceCode, text, setText, style, setStyle]
+        [
+          sourceCode,
+          setSourceCode,
+          text,
+          setText,
+          appId,
+          setAppId,
+          style,
+          setStyle,
+          name,
+          setName,
+        ]
       )}
     >
       {children}

@@ -1,32 +1,27 @@
+import parseStringfyHtmlToReactElement from 'html-react-parser'
 import { useEffect } from 'react'
 import { Button } from '../../components'
+import { useNoteActions } from '../../hooks'
 import { PageHeader } from '../../layout'
-import { NoteProps } from '../my-notes/Note'
+import { NoteProps } from '../my-notes'
 import { BuidlerPreview } from './BuidlerPreview'
+import { BuilderSettings } from './builder-settings'
 import { useBuilderContext } from './BuilderContext'
 import { StyleBar } from './StyleBar'
-import parseStringfyHtmlToReactElement from 'html-react-parser'
-import { QueryKeys, usePostMutation, usePutMutation } from '../../api'
-import { useSnackbarProvider } from '../../ContextProviders'
-import { useNavigate } from 'react-router-dom'
+import { CircularProgress, Skeleton } from '@mui/material'
 
-export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
-  const { sourceCode, setSourceCode, setText, setStyle } = useBuilderContext()
-  const navigate = useNavigate()
-  const { showSnackbar } = useSnackbarProvider()
-  const craeteNote = usePostMutation({
-    url: `notes`,
-    queryKey: [QueryKeys.Notes],
-    onSuccess: () => {
-      navigate('/')
-    },
-  })
-  const updateNote = usePutMutation({
-    url: `notes/${note?.id ?? ''}`,
-    queryKey: [QueryKeys.Notes, QueryKeys.Note, ...(note?.id ? [note.id] : [])],
-    onSuccess: () => {
-      showSnackbar({ message: 'Note updated successfully' })
-    },
+export const BuilderPageContent = ({
+  note,
+  loading,
+}: {
+  note?: NoteProps
+  loading: boolean
+}) => {
+  const { sourceCode, appId, name, setSourceCode, setText, setStyle } =
+    useBuilderContext()
+  const { createNote, updateNote } = useNoteActions({
+    id: note?.id,
+    name,
   })
 
   useEffect(() => {
@@ -45,27 +40,43 @@ export const BuilderPageContent = ({ note }: { note?: NoteProps }) => {
     if (!sourceCode) {
       return
     }
+    const payload = { body: { component: sourceCode, appId, name } }
     if (note) {
-      updateNote.mutate({ body: { component: sourceCode } })
+      updateNote(payload)
     } else {
-      craeteNote.mutate({ body: { component: sourceCode } })
+      createNote(payload)
     }
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col">
       <PageHeader
         title={'Create your element'}
         actions={
-          <Button disabled={!sourceCode} onClick={onCreate}>
+          <Button disabled={!sourceCode || loading} onClick={onCreate}>
             Save
           </Button>
         }
       />
-      <div className="flex flex-row">
-        <BuidlerPreview />
-        <StyleBar />
-      </div>
+      {loading ? (
+        <BuilderPageContentSkeleton />
+      ) : (
+        <div className="flex flex-row h-full">
+          <div className="flex flex-col w-1/2 mt-4 gap-4 h-full">
+            <BuidlerPreview />
+            <BuilderSettings />
+          </div>
+          <StyleBar />
+        </div>
+      )}
+    </div>
+  )
+}
+
+const BuilderPageContentSkeleton = () => {
+  return (
+    <div className="flex flex-row h-full justify-center items-center">
+      <CircularProgress />
     </div>
   )
 }

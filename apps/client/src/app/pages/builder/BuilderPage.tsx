@@ -1,8 +1,9 @@
 import { BuilderPageContent } from './BuilderPageContent'
 import { BuilderContextProvider } from './BuilderContext'
 import { useParams } from 'react-router-dom'
-import { NoteProps } from '../my-notes/Note'
+import { NoteProps } from '../my-notes'
 import { QueryKeys, useQueryData } from '../../api'
+import { Skeleton } from '@mui/material'
 
 export const BuilderPage = () => {
   const { id } = useParams()
@@ -16,17 +17,9 @@ export const BuilderPage = () => {
     enabled: !!id,
   })
 
-  if (isFetching || isLoading) {
-    return <BuilderPageContentSkeleton />
-  }
-
   return (
-    <BuilderContextProvider>
-      <BuilderPageContent note={note} />
+    <BuilderContextProvider noteAppId={note?.appId}>
+      <BuilderPageContent note={note} loading={isFetching || isLoading} />
     </BuilderContextProvider>
   )
-}
-
-const BuilderPageContentSkeleton = () => {
-  return <div className="w-full h-full">Loading...</div>
 }

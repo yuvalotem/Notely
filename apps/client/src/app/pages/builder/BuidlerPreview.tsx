@@ -26,7 +26,8 @@ export const BuidlerPreview: FC<{}> = () => {
   }, [sourceCode])
 
   return (
-    <div className="flex items-start justify-center w-1/2 mt-8">
+    <div className="flex flex-col gap-4 items-center h-1/2">
+      <h1>Custom Component</h1>
       <div
         style={{
           backgroundColor,

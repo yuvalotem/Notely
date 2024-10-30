@@ -15,8 +15,10 @@ describe('NotesController', () => {
 
   describe('getData', () => {
     it('should return "Hello API"', () => {
-      const appController = app.get<NotesController>(NotesController)
-      expect(appController.getData()).toEqual({ message: 'Hello API' })
+      const notesController = app.get<NotesController>(NotesController)
+      expect(notesController.getData('', '')).toEqual({
+        message: 'Hello API',
+      })
     })
   })
 })

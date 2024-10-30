@@ -4,7 +4,7 @@ import {
   QueryClient,
   UseQueryOptions,
   UseMutationOptions,
-} from 'react-query'
+} from '@tanstack/react-query'
 import { Delete, Get, Post, Put, RequestParams } from '../requests'
 import { useHandleApiRequestError } from '../helpers'
 import { QueryKeys } from './consts'
@@ -16,7 +16,9 @@ type CommonReactQueryParams = {
 }
 
 export type QueryDataParams<T> = Omit<UseQueryOptions<T>, 'queryKey'> &
-  CommonReactQueryParams
+  CommonReactQueryParams & {
+    onError?: <E>(err: E) => void
+  }
 
 export const queryClient = new QueryClient()
 
@@ -36,12 +38,15 @@ export const useQueryData = <T>({
   ...rest
 }: QueryDataParams<T>) => {
   const handleApiRequestError = useHandleApiRequestError(onError)
-  return useQuery<T>({
+  const response = useQuery<T>({
     queryKey,
     queryFn: () => Get({ url, headers }),
-    onError: handleApiRequestError,
     ...rest,
   })
+  if (response.isError) {
+    handleApiRequestError(response.error)
+  }
+  return response
 }
 
 export type RawMutationParams<T, E, P> = Omit<
@@ -51,6 +56,7 @@ export type RawMutationParams<T, E, P> = Omit<
   CommonReactQueryParams & {
     apiFunction: <T>(params: RequestParams) => Promise<T>
     onError?: (err: unknown) => void
+    body?: Record<string, unknown>
   }
 /**
  * use react query mutation with predefined api function
@@ -86,8 +92,9 @@ type MutationParams<T, E, P> = Omit<RawMutationParams<T, E, P>, 'apiFunction'>
  * @returns
  * @see https://react-query.tanstack.com/reference/useMutation
  */
-export const usePostMutation = <T, E, P>(params: MutationParams<T, E, P>) =>
-  useRawMutation({ ...params, apiFunction: Post })
+export const usePostMutation = <T = void, E = unknown, P = void>(
+  params: MutationParams<T, E, P>
+) => useRawMutation({ ...params, apiFunction: Post })
 
 /**
  * use Post request
@@ -97,8 +104,9 @@ export const usePostMutation = <T, E, P>(params: MutationParams<T, E, P>) =>
  * @returns
  * @see https://react-query.tanstack.com/reference/useMutation
  */
-export const usePutMutation = <T, E, P>(params: MutationParams<T, E, P>) =>
-  useRawMutation({ ...params, apiFunction: Put })
+export const usePutMutation = <T = void, E = unknown, P = void>(
+  params: MutationParams<T, E, P>
+) => useRawMutation({ ...params, apiFunction: Put })
 
 /**
  * use Post request

@@ -11,7 +11,7 @@ export const NavBarItem = ({ label, path, icon }: NavBarItemProps) => {
   return (
     <div
       onClick={() => navigate(path)}
-      className="flex flex-row gap-4 cursor-pointer border-t-2 py-2 pl-2 hover:bg-gray-200"
+      className="flex flex-row gap-4 cursor-pointer border-b-[1px] py-2 pl-2 hover:bg-gray-200"
     >
       <span>{icon}</span>
       {label}
