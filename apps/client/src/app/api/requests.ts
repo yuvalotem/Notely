@@ -5,7 +5,6 @@ const REQUEST_HEADERS = {
 }
 
 const APP_BASE_URL = 'http://localhost:8000/api/'
-
 const buildAppUrl = (url: string) => APP_BASE_URL + url
 
 export type RequestParams = {
@@ -34,6 +33,7 @@ export const Post = ({ url, headers, body }: RequestParams) =>
     },
   })
     .then((response) => response.json())
+    // eslint-disable-next-line no-console
     .catch((error) => console.error('Error:', error))
 
 export const Put = ({ url, headers, body }: RequestParams) =>
@@ -46,6 +46,7 @@ export const Put = ({ url, headers, body }: RequestParams) =>
     },
   })
     .then((response) => response.json())
+    // eslint-disable-next-line no-console
     .catch((error) => console.error('Error:', error))
 
 export const Delete = ({ url, headers }: RequestParams) =>
@@ -57,4 +58,5 @@ export const Delete = ({ url, headers }: RequestParams) =>
     },
   })
     .then((response) => response.json())
+    // eslint-disable-next-line no-console
     .catch((error) => console.error('Error:', error))

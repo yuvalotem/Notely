@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@notely/notely/js": ["notely/js/src/index.ts"]
+      "@notely/notely-js": ["libs/notely-js/src/index.ts"],
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "dist"],
+  "include": ["apps/**/*", "libs/**/*", ".eslintrc.json"],
 }

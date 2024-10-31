@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-import { appRoutes } from '../../routes'
-import { Button } from '../../components'
 
-export const MyNotesPageActions = () => {
+import { Button } from '../../components'
+import { appRoutes } from '../../routes'
+
+export function MyNotesPageActions() {
   const navigate = useNavigate()
 
   return (

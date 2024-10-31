@@ -1,25 +1,27 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { MenuItem, Select } from '@mui/material'
+
 import { QueryKeys, useQueryData } from '../../../api'
 import { ApplicationsResponse } from '../../settings/types'
 import { useBuilderContext } from '../BuilderContext'
 
-export const ApplicationSelect = () => {
+export function ApplicationSelect() {
   const { appId, setAppId } = useBuilderContext()
+
   const { data } = useQueryData<ApplicationsResponse>({
     url: `applications`,
     queryKey: [QueryKeys.Applications],
   })
 
   return (
-    <FormControl fullWidth>
-      <InputLabel id="app-select-label">Applciation</InputLabel>
+    <div>
+      <h3>Application</h3>
       <Select
-        labelId="app-select-label"
-        id="app-select"
-        value={appId}
+        defaultValue={data?.apps?.[0]?.id}
+        key={appId}
         label="Applciation"
         onChange={(event) => setAppId(event.target.value)}
-        sx={{ width: '300px' }}
+        sx={{ width: '20rem' }}
+        value={appId}
       >
         {data?.apps?.map((app) => (
           <MenuItem key={app.id} value={app.id}>
@@ -27,6 +29,6 @@ export const ApplicationSelect = () => {
           </MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </div>
   )
 }

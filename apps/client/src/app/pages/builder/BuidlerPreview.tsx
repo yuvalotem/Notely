@@ -1,4 +1,5 @@
-import { useEffect, useRef, type FC } from 'react'
+import { useEffect, useRef } from 'react'
+
 import { useBuilderContext } from './BuilderContext'
 
 /**
@@ -7,8 +8,9 @@ import { useBuilderContext } from './BuilderContext'
  * It also keeps track of the outerHTML of the div and updates the
  * source code in the context with it.
  */
-export const BuidlerPreview: FC<{}> = () => {
+export function BuidlerPreview() {
   const { text, style, setSourceCode } = useBuilderContext()
+
   const {
     backgroundColor,
     borderRadius,
@@ -18,17 +20,19 @@ export const BuidlerPreview: FC<{}> = () => {
     height,
     color,
   } = style ?? {}
+
   const embeddedElementRef = useRef<HTMLDivElement>(null)
   const sourceCode = embeddedElementRef.current?.outerHTML
 
   useEffect(() => {
     setSourceCode(sourceCode)
-  }, [sourceCode])
+  }, [sourceCode, setSourceCode])
 
   return (
     <div className="flex flex-col gap-4 items-center h-1/2">
       <h1>Custom Component</h1>
       <div
+        ref={embeddedElementRef}
         style={{
           backgroundColor,
           borderRadius,
@@ -38,7 +42,6 @@ export const BuidlerPreview: FC<{}> = () => {
           height,
           color,
         }}
-        ref={embeddedElementRef}
       >
         {text}
       </div>

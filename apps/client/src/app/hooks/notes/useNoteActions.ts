@@ -1,4 +1,6 @@
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import {
   QueryKeys,
   useDeleteMutation,
@@ -7,7 +9,14 @@ import {
 } from '../../api'
 import { useSnackbarProvider } from '../../ContextProviders'
 import { appRoutes } from '../../routes'
-import { useMemo } from 'react'
+
+const generateNoteMessage = ({
+  name = 'was',
+  action,
+}: {
+  name?: string
+  action: string
+}) => `Note ${name} ${action} successfully`
 
 type NotePayload = {
   body: Partial<{ component: string; appId: string; name: string }>
@@ -21,6 +30,7 @@ export const useNoteActions = ({
 }) => {
   const navigate = useNavigate()
   const { showSnackbar } = useSnackbarProvider()
+
   const { mutate: createNote } = usePostMutation<void, unknown, NotePayload>({
     url: `notes`,
     queryKey: [QueryKeys.Notes],
@@ -28,6 +38,7 @@ export const useNoteActions = ({
       navigate(appRoutes.notes.path)
     },
   })
+
   const { mutate: updateNote } = usePutMutation<void, unknown, NotePayload>({
     url: `notes/${id ?? ''}`,
     queryKey: [QueryKeys.Notes, QueryKeys.Note, ...(id ? [id] : [])],
@@ -64,11 +75,3 @@ export const useNoteActions = ({
     [createNote, updateNote, deleteNote, pushNote]
   )
 }
-
-const generateNoteMessage = ({
-  name = 'was',
-  action,
-}: {
-  name?: string
-  action: string
-}) => `Note ${name} ${action} successfully`

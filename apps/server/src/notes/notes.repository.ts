@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
 import { NoteEntitiy } from './note.entitiy'
 import { NoteBody } from './types'
 
@@ -25,7 +26,6 @@ export class NotesRepository {
 
       return entity?.id
     } catch (e) {
-      console.error(e)
       throw new Error('couldnt create component')
     }
   }

@@ -1,0 +1,19 @@
+{
+  "name": "notely-js",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/notely-js/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/notely-js",
+        "main": "libs/notely-js/src/index.ts",
+        "tsConfig": "libs/notely-js/tsconfig.lib.json",
+        "assets": ["libs/notely-js/*.md"]
+      }
+    }
+  }
+}

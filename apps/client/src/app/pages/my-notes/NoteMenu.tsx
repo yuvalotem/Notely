@@ -1,25 +1,29 @@
-import * as React from 'react'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import { IconButton } from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { NoteProps } from './types'
 import CellTowerIcon from '@mui/icons-material/CellTower'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import EditNoteIcon from '@mui/icons-material/EditNote'
-import { useNavigate } from 'react-router-dom'
-import { useNoteActions } from '../../hooks'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { IconButton } from '@mui/material'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import * as React from 'react'
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { useNoteActions } from '../../hooks'
+import { DeleteNoteDialog } from './DeleteNoteDialog'
+import { NoteProps } from './types'
 
 export default function NoteMenu({ id, name }: NoteProps) {
   const navigate = useNavigate()
-  const { pushNote, deleteNote } = useNoteActions({ id, name })
+  const [isDeleteDialogVisible, setDeleteDialogVisiblity] = useState(false)
+  const { pushNote } = useNoteActions({ id, name })
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isOpen = !!anchorEl
 
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
+
   const onClose = () => {
     setAnchorEl(null)
   }
@@ -38,45 +42,52 @@ export default function NoteMenu({ id, name }: NoteProps) {
       },
       {
         label: 'Delete',
-        onClick: () => deleteNote(),
+        onClick: () => setDeleteDialogVisiblity(true),
         Icon: DeleteOutlineIcon,
       },
     ],
-    [navigate, pushNote, deleteNote]
+    [id, navigate, pushNote, setDeleteDialogVisiblity]
   )
+
   return (
     <div>
       <IconButton
-        id="basic-button"
         aria-controls={isOpen ? 'basic-menu' : undefined}
-        aria-haspopup="true"
         aria-expanded={isOpen ? 'true' : undefined}
+        aria-haspopup="true"
+        id="basic-button"
         onClick={onClick}
       >
         <MoreVertIcon />
       </IconButton>
       <Menu
-        anchorEl={anchorEl}
-        open={isOpen}
-        onClose={onClose}
         MenuListProps={{
           'aria-labelledby': 'note menu',
           sx: {
             width: '12rem',
           },
         }}
+        anchorEl={anchorEl}
+        onClose={onClose}
+        open={isOpen}
       >
-        {items.map(({ Icon, label, onClick }) => (
+        {items.map(({ Icon, label, onClick: onItemClick }) => (
           <MenuItem
-            key={label}
-            onClick={onClick}
             className="flex flex-row gap-2"
+            key={label}
+            onClick={onItemClick}
           >
             <Icon color="action" />
             {label}
           </MenuItem>
         ))}
       </Menu>
+      <DeleteNoteDialog
+        id={id}
+        isOpen={isDeleteDialogVisible}
+        name={name}
+        onClose={() => setDeleteDialogVisiblity(false)}
+      />
     </div>
   )
 }

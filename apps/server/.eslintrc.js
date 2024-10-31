@@ -1,14 +1,15 @@
-{
+module.exports = exports = {
   "root": true,
-  "ignorePatterns": ["**/*"],
   "plugins": ["@nx", "react", "@typescript-eslint", "prettier", "simple-import-sort", "import"],
   "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": "./tsconfig.base.json"
+    "project": "./tsconfig.eslint.json",
+    "tsconfigRootDir": __dirname,
   },
+  "ignorePatterns": [".eslintrc.js", "webpack.config.js", "*.json"],
   "rules": {
     "simple-import-sort/imports": "error",
     "import/no-extraneous-dependencies": "off",
@@ -18,12 +19,6 @@
     "react/jsx-props-no-spreading": "off",
     "no-console": "error",
     "no-var": "error",
-    "react/jsx-sort-props": [
-      "error",
-      {
-        "shorthandFirst": true
-      }
-    ],
     "@typescript-eslint/no-floating-promises": "off",
     "react/jsx-one-expression-per-line": "off",
     "spaced-comment": ["error", "always"],
@@ -127,40 +122,6 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "simple-import-sort/imports": [
-          "error",
-          {
-            "groups": [
-              // Add internal packages showing on top, You can add "react-hook-form", "react-query" etc.
-              ["^@nx", "^react", "^\\w"],
-              // npm packages
-              // Anything that starts with a letter (or digit or underscore), or `@` followed by a letter.
-              // ["^\\w"],
-              // Internal packages.
-              ["^@store(/.*|$)"],
-              ["^@components(/.*|$)"],
-              ["^@ui(/.*|$)"],
-              ["^@lib(/.*|$)"],
-              ["^@pages(/.*|$)"],
-              ["^@routes(/.*|$)"],
-              ["^@layouts(/.*|$)"],
-              ["^@utils(/.*|$)"],
-              ["^@assets(/.*|$)"],
-              ["^@helpers(/.*|$)"],
-              ["^@hooks(/.*|$)"],
-              ["^@providers(/.*|$)"],
-              ["^@services(/.*|$)"],
-              // Side effect imports.
-              ["^\\u0000"],
-              // Parent imports. Put `..` last.
-              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-              // Other relative imports. Put same-folder imports and `.` last.
-              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-              // Style imports.
-              ["^.+\\.?(css)$"]
-            ]
-          }
-        ],
         "@nx/enforce-module-boundaries": [
           "error",
           {

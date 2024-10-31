@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-
 import { TypeOrmModule } from '@nestjs/typeorm'
+
+import { ApplicationsModlue } from './applications'
+import { ApplicationEntitiy } from './applications/application.entitiy'
 import { NotesModlue } from './notes'
 import { NoteEntitiy } from './notes/note.entitiy'
 import { EventsModule } from './stream'
-import { ApplicationsModlue } from './applications'
-import { ApplicationEntitiy } from './applications/application.entitiy'
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { ApplicationEntitiy } from './applications/application.entitiy'
       entities: [
         NoteEntitiy,
         ApplicationEntitiy,
-        __dirname + './**/*.entity.{js,ts}',
+        `${__dirname}./**/*.entity.{js,ts}`,
       ],
       synchronize: true,
     }),

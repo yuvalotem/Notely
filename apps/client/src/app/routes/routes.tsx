@@ -1,9 +1,9 @@
 import HomeIcon from '@mui/icons-material/Home'
+import Note from '@mui/icons-material/Note'
 import NotesIcon from '@mui/icons-material/Notes'
 import SettingsIcon from '@mui/icons-material/Settings'
-import Note from '@mui/icons-material/Note'
-import { FunctionComponent } from 'react'
 import { SvgIconProps } from '@mui/material'
+import { FunctionComponent } from 'react'
 
 type RouteOptions = {
   path: string

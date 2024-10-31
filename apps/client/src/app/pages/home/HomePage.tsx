@@ -1,8 +1,9 @@
+import { useNavigate } from 'react-router-dom'
+
 import { Button, Card } from '../../components'
 import { PageHeader } from '../../layout'
 import { PageBody } from '../../layout/PageBody'
 import { appRoutes } from '../../routes/routes'
-import { useNavigate } from 'react-router-dom'
 
 const introducers = [
   {
@@ -19,8 +20,9 @@ const introducers = [
   },
 ]
 
-export const HomePage = () => {
+export default function HomePage() {
   const navigate = useNavigate()
+
   return (
     <div className="w-full h-full">
       <PageHeader title={appRoutes.home.title} />
@@ -28,13 +30,13 @@ export const HomePage = () => {
         Welcome to Notely
         <div className="grid grid-cols-2 gap-2">
           {introducers.map(({ title, description, path }) => (
-            <Card key={title} className="flex flex-col">
+            <Card className="flex flex-col" key={title}>
               <Card.Header className="h-fit">{title}</Card.Header>
               <Card.Body className="flex flex-col justify-between h-full">
                 <span>{description}</span>
                 <Button
-                  onClick={() => navigate(path)}
                   className="w-fit self-end"
+                  onClick={() => navigate(path)}
                 >
                   Explore
                 </Button>

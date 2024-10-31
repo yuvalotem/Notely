@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+
 import { ApplicationEntitiy } from './application.entitiy'
 
 @Injectable()
@@ -24,7 +25,6 @@ export class ApplicationsRepository {
 
       return entity?.id
     } catch (e) {
-      console.error(e)
       throw new Error('couldnt create application')
     }
   }

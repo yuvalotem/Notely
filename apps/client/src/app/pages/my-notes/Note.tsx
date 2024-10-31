@@ -1,9 +1,10 @@
 import parseStringfyHtmlToReactElement from 'html-react-parser'
+
 import { Card } from '../../components'
 import NoteMenu from './NoteMenu'
 import { NoteProps } from './types'
 
-export const Note = (props: NoteProps) => {
+export function Note(props: NoteProps) {
   const { component, name } = props
 
   return (

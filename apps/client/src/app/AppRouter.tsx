@@ -1,12 +1,13 @@
-import { Route, Routes } from 'react-router-dom'
-import { appRoutes } from './routes'
-import { FunctionComponent, lazy, Suspense } from 'react'
 import { CircularProgress } from '@mui/material'
+import { FunctionComponent, lazy, Suspense } from 'react'
+import { Route, Routes } from 'react-router-dom'
 
-const HomePage = lazy(() => import('./pages/home'))
-const MyNotesPage = lazy(() => import('./pages/my-notes'))
-const BuilderPage = lazy(() => import('./pages/builder'))
-const SettingsPage = lazy(() => import('./pages/settings'))
+import { appRoutes } from './routes'
+
+const HomePage = lazy(() => import('./pages/home/HomePage'))
+const MyNotesPage = lazy(() => import('./pages/my-notes/MyNotesPage'))
+const BuilderPage = lazy(() => import('./pages/builder/BuilderPage'))
+const SettingsPage = lazy(() => import('./pages/settings/SettingsPage'))
 
 const pathComponentMap: Record<string, FunctionComponent> = {
   [appRoutes.home.path]: HomePage,
@@ -18,18 +19,15 @@ const pathComponentMap: Record<string, FunctionComponent> = {
 
 export function AppRouter() {
   return (
-    <Suspense fallback={<AppLoader />}>
+    <Suspense fallback={<CircularProgress />}>
       <Routes>
         {Object.keys(appRoutes).map((key) => {
           const { path } = appRoutes[key]
           const Component = pathComponentMap[path]
-          return <Route key={path} path={path} element={<Component />} />
+
+          return <Route element={<Component />} key={path} path={path} />
         })}
       </Routes>
     </Suspense>
   )
-}
-
-const AppLoader = () => {
-  return <CircularProgress />
 }

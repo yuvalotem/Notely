@@ -1,9 +1,9 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin')
-const { join } = require('path')
+const path = require('path')
 
 module.exports = {
   output: {
-    path: join(__dirname, '../../dist/apps/demo-js'),
+    path: path.join(__dirname, '../../dist/apps/demo-js'),
   },
   devServer: {
     port: 4200,
@@ -17,8 +17,8 @@ module.exports = {
       baseHref: '/',
       assets: ['./src/favicon.ico', './src/assets'],
       styles: ['./src/styles.css'],
-      outputHashing: process.env['NODE_ENV'] === 'production' ? 'all' : 'none',
-      optimization: process.env['NODE_ENV'] === 'production',
+      outputHashing: process.env.NODE_ENV === 'production' ? 'all' : 'none',
+      optimization: process.env.NODE_ENV === 'production',
     }),
   ],
 }

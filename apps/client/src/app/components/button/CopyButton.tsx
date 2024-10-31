@@ -1,12 +1,12 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import { useState } from 'react'
 import CheckIcon from '@mui/icons-material/Check'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { Tooltip } from '@mui/material'
+import { useState } from 'react'
 
 type CopyButtonProps = {
   value: string
 }
-export const CopyButton = ({ value }: CopyButtonProps) => {
+export function CopyButton({ value }: CopyButtonProps) {
   const [copied, setCopied] = useState(false)
 
   const onClick = () => {
@@ -16,7 +16,7 @@ export const CopyButton = ({ value }: CopyButtonProps) => {
   }
 
   return (
-    <Tooltip title={copied ? 'Copied!' : 'Copy'} placement="top">
+    <Tooltip placement="top" title={copied ? 'Copied!' : 'Copy'}>
       {copied ? (
         <CheckIcon sx={{ width: '1rem', color: 'green' }} />
       ) : (

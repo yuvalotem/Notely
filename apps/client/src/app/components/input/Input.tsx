@@ -20,18 +20,22 @@ const inputVariantGuard = (
 ): props is Extract<InputProps, { variant: 'multiline' }> =>
   'variant' in props && props.variant === 'multiline'
 
-export const Input = (props: InputProps) => {
+const inputBaseStyle = 'px-2 py-0.5 rounded border-[1px] border-gray-200'
+
+export function Input(props: InputProps) {
   const { className } = props
   const finalClassName = twMerge(inputBaseStyle, className)
+
   if (inputVariantGuard(props)) {
     return <textarea cols={40} rows={5} {...props} className={finalClassName} />
   }
-  const { onChange: _onChange, onValueChange, ...rest } = props
+
+  const { onChange: baseOnChange, onValueChange, ...rest } = props
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onValueChange?.(e.target.value)
-    _onChange?.(e)
+    baseOnChange?.(e)
   }
-  return <input {...rest} onChange={onChange} className={finalClassName} />
-}
 
-const inputBaseStyle = 'px-2 py-0.5 rounded border-[1px] border-gray-200'
+  return <input {...rest} className={finalClassName} onChange={onChange} />
+}

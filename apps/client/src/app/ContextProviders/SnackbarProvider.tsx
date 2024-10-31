@@ -1,5 +1,12 @@
 import { Alert, AlertProps, Snackbar, SnackbarProps } from '@mui/material'
-import { PropsWithChildren, createContext, useContext, useState } from 'react'
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 
 type SnackbarPropsWithSeverity = SnackbarProps & {
   severity?: AlertProps['severity']
@@ -8,26 +15,33 @@ type SnackbarPropsWithSeverity = SnackbarProps & {
 type SnackbarContextType = {
   showSnackbar: (props: Partial<SnackbarPropsWithSeverity>) => void
 }
+
 const SnackbarContext = createContext<SnackbarContextType>({
   showSnackbar: () => {},
 })
 
-export const SnackbarProvider = ({ children }: PropsWithChildren) => {
+export function SnackbarProvider({ children }: PropsWithChildren) {
   const [snackbarProps, setSnackbarProps] = useState<
     Partial<SnackbarPropsWithSeverity>
   >({
     open: false,
   })
 
-  const showSnackbar = (props: Partial<SnackbarPropsWithSeverity>) => {
-    setSnackbarProps({ ...props, open: true })
-  }
+  const showSnackbar = useCallback(
+    (props: Partial<SnackbarPropsWithSeverity>) => {
+      setSnackbarProps({ ...props, open: true })
+    },
+    [setSnackbarProps]
+  )
+
   const closeSnackbar = () => {
     setSnackbarProps({ open: false })
   }
 
   return (
-    <SnackbarContext.Provider value={{ showSnackbar }}>
+    <SnackbarContext.Provider
+      value={useMemo(() => ({ showSnackbar }), [showSnackbar])}
+    >
       <Snackbar
         autoHideDuration={2000}
         onClose={closeSnackbar}

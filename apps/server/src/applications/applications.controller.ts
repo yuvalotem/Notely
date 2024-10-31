@@ -1,18 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Response,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
   Put,
+  Response,
 } from '@nestjs/common'
 import { Response as ResponseType } from 'express'
 
 import { ApplicationsService } from './applications.service'
 
-export class CreateApplicationDto {
+type CreateApplicationDto = {
   name: string
 }
 
@@ -23,12 +23,14 @@ export class ApplicationsController {
   @Get('/')
   async getAllApplications(@Response() res: ResponseType) {
     const data = await this.appService.getAllApplications()
+
     return res.status(200).json({ apps: data, totalCount: data.length })
   }
 
   @Get('/:id')
   async getData(@Param('id') id: string, @Response() res: ResponseType) {
     const data = await this.appService.getApplication(id)
+
     return res.status(200).json(data)
   }
 
@@ -38,6 +40,7 @@ export class ApplicationsController {
     @Response() res: ResponseType
   ) {
     const id = await this.appService.saveApplication(name)
+
     return res.status(204).json({ id })
   }
 
@@ -48,12 +51,14 @@ export class ApplicationsController {
     @Response() res: ResponseType
   ) {
     await this.appService.updateApplicaiton(id, name)
+
     return res.status(200).json()
   }
 
   @Delete('/:id')
   async deleteData(@Param('id') id: string, @Response() res: ResponseType) {
     await this.appService.removeApplication(id)
+
     return res.status(200).json()
   }
 }

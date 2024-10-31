@@ -1,9 +1,9 @@
 import {
-  CSSProperties,
-  FC,
-  PropsWithChildren,
   createContext,
+  CSSProperties,
+  PropsWithChildren,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
@@ -13,16 +13,12 @@ type BuilderContextValues = {
   setSourceCode: (text?: string) => void
   text: string
   setText: (text: string) => void
-  name: string
+  name?: string
   setName: (name: string) => void
   appId?: string
   setAppId: (appId: string) => void
   style?: CSSProperties
   setStyle: React.Dispatch<React.SetStateAction<CSSProperties | undefined>>
-}
-
-export const useBuilderContext = () => {
-  return useContext(BuilderContext)
 }
 
 const BuilderContext = createContext<BuilderContextValues>({
@@ -38,6 +34,8 @@ const BuilderContext = createContext<BuilderContextValues>({
   setStyle: () => {},
 })
 
+export const useBuilderContext = () => useContext(BuilderContext)
+
 const DEFAULT_STYLE: CSSProperties = {
   backgroundColor: 'white',
   color: 'black',
@@ -47,14 +45,25 @@ const DEFAULT_STYLE: CSSProperties = {
   borderWidth: '1px',
   padding: '4px',
 }
-export const BuilderContextProvider: FC<
-  PropsWithChildren<{ noteAppId?: string }>
-> = ({ children, noteAppId }) => {
+
+export function BuilderContextProvider({
+  children,
+  noteAppId,
+  noteName,
+}: PropsWithChildren<{ noteAppId?: string; noteName?: string }>) {
   const [sourceCode, setSourceCode] = useState<string>()
   const [style, setStyle] = useState<CSSProperties | undefined>(DEFAULT_STYLE)
   const [text, setText] = useState('This is my new note!')
-  const [name, setName] = useState('')
+  const [name, setName] = useState(noteName)
   const [appId, setAppId] = useState<string | undefined>(noteAppId)
+
+  useEffect(() => {
+    setName(noteName)
+  }, [noteName])
+
+  useEffect(() => {
+    setAppId(noteAppId)
+  }, [noteAppId])
 
   return (
     <BuilderContext.Provider

@@ -1,6 +1,12 @@
-{
+module.exports = exports = {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": '../../tsconfig.eslint.json',
+    "tsconfigRootDir": __dirname,
+  },
+  "ignorePatterns": [".eslintrc.js", "webpack.config.js", "*.json"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],

@@ -1,35 +1,6 @@
 import { cva } from 'class-variance-authority'
-import { PropsWithChildren, forwardRef } from 'react'
+import { forwardRef, PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
-
-type ButtonVariant = 'primary' | 'secondary' | 'text' | 'danger'
-export type ButtonProps = PropsWithChildren<{
-  className?: string
-  onClick?: () => void
-  /**
-   * @default 'primary'
-   */
-  variant?: ButtonVariant
-  size?: 'small' | 'medium' | 'large'
-  disabled?: boolean
-}>
-
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, variant, size, disabled, ...props }, ref) => {
-    return (
-      <button
-        className={twMerge(
-          buttonStyles({ intent: variant, size, disabled }),
-          className
-        )}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </button>
-    )
-  }
-)
 
 const buttonStyles = cva(
   ['font-semibold', 'border', 'rounded', 'cursor-pointer'],
@@ -71,4 +42,31 @@ const buttonStyles = cva(
       size: 'medium',
     },
   }
+)
+
+type ButtonVariant = 'primary' | 'secondary' | 'text' | 'danger'
+export type ButtonProps = PropsWithChildren<{
+  className?: string
+  onClick?: () => void
+  /**
+   * @default 'primary'
+   */
+  variant?: ButtonVariant
+  size?: 'small' | 'medium' | 'large'
+  disabled?: boolean
+}>
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, children, variant, size, disabled, ...props }, ref) => (
+    <button
+      className={twMerge(
+        buttonStyles({ intent: variant, size, disabled }),
+        className
+      )}
+      ref={ref}
+      {...props}
+    >
+      {children}
+    </button>
+  )
 )

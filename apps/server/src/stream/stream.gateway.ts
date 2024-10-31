@@ -7,7 +7,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets'
-
 import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway()
@@ -22,26 +21,32 @@ export class NoteGateway
     this.logger.log('Initialized')
   }
 
-  handleConnection(client: any, ...args: any[]) {
+  handleConnection(client: { id: string }) {
     this.logger.log(
-      `Connection established with client id: ${client.id} connected`
+      `Connection established with client ID: ${client.id} connected`
     )
   }
 
-  handleDisconnect(client: any) {
+  handleDisconnect(client: { id: string }) {
     this.logger.log(`Cliend id:${client.id} disconnected`)
   }
 
   @SubscribeMessage('room')
   joinRoom(socket: Socket, roomId: string) {
+    this.logger.log(`New join to room ID: ${roomId}`)
     socket.join(roomId)
   }
 
   @SubscribeMessage('note:publish')
-  handleMessage(client: any, data: { content: string; roomId: string }) {
-    this.logger.log(`Message received from client id: ${client.id}`)
+  handleMessage(
+    client: { id: string },
+    data: { content: string; roomId: string }
+  ) {
+    this.logger.log(`Message received from client ID: ${client.id}`)
     const { content, roomId } = data
+
     this.io.to(roomId).emit('note:stream', content)
+
     return {
       event: 'note:stream',
       data,

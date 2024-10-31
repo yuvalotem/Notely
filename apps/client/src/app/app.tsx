@@ -1,5 +1,5 @@
 import { AppRouter } from './AppRouter'
-import { SnackbarProvider, buildAppProviders } from './ContextProviders'
+import { buildAppProviders, SnackbarProvider } from './ContextProviders'
 import { AppQueryClientProvider } from './ContextProviders/AppQueryClientProvider'
 import { NavBar } from './nav-bar'
 

@@ -1,1 +1,1 @@
-export { BuilderPage as default } from './BuilderPage'
+export { default as BuilderPage  } from './BuilderPage'

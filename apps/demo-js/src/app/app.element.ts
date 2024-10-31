@@ -1,39 +1,23 @@
-import { io, Socket } from 'socket.io-client'
-
 import './app.element.css'
+
+import { setupNotely } from '@notely/notely-js'
+
+const APP_ID = 'e02df74d-bc85-40f5-b18e-7675a744863f'
 
 export class AppElement extends HTMLElement {
   public static observedAttributes = []
 
-  ioClient: Socket
-
-  appId: string
-
-  constructor(appId: string) {
+  constructor() {
     super()
-    this.appId = appId
-    this.ioClient = io('http://localhost:8000', {
-      autoConnect: false,
-      transports: ['websocket', 'polling'],
-    })
-  }
-
-  subscribeToNoteEvent() {
-    this.ioClient.connect()
-    this.ioClient.emit('room', this.appId)
-    this.ioClient.on('connect', () => {})
-    this.ioClient.on('note:stream', (data: string) => {
-      this.innerHTML = data
-    })
+    setupNotely(APP_ID)
   }
 
   connectedCallback() {
     const title = 'demo-js'
 
-    this.subscribeToNoteEvent()
-
     this.innerHTML = `
     <div class="wrapper">
+    <notely-root></notely-root>
     <input id="produceEventInput"/>
       <div class="container">
         <!--  WELCOME  -->
@@ -432,3 +416,5 @@ nx affected:e2e</pre>
       `
   }
 }
+
+customElements.define('demo-js-root', AppElement)

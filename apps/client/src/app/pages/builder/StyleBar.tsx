@@ -1,10 +1,12 @@
-import { CSSProperties, ChangeEventHandler, useState } from 'react'
+import { ChangeEventHandler, CSSProperties, useState } from 'react'
+
 import { Button, CodeEditor, ColorPicker, Input } from '../../components'
 import { useBuilderContext } from './BuilderContext'
 
-export const StyleBar = () => {
+export function StyleBar() {
   const { sourceCode, setSourceCode, style, setStyle, text, setText } =
     useBuilderContext()
+
   const {
     backgroundColor,
     color,
@@ -14,6 +16,7 @@ export const StyleBar = () => {
     borderWidth,
     padding,
   } = style ?? {}
+
   const setStyleAttribute = (key: keyof CSSProperties) => (val: string) =>
     setStyle((oldStyle) => ({ ...oldStyle, [key]: val }))
 
@@ -41,70 +44,70 @@ export const StyleBar = () => {
   const title = isSourceCodeVisible ? 'Source Code' : 'Creaete and Customize'
 
   return (
-    <div className={`mr-4 p-2 border-[1px] border-t-0 w-1/2 h-full`}>
+    <div className="mr-4 p-2 border-[1px] border-t-0 w-1/2 h-full">
       <h1 className="mb-2">{title}</h1>
       {isSourceCodeVisible ? (
         <CodeEditor
-          value={editorValue ?? sourceCode}
+          height="80vh"
           onChange={hadnleEditorChange}
-          height={'80vh'}
+          value={editorValue ?? sourceCode}
         />
       ) : (
         <>
           <div className="grid grid-cols-2 gap-2">
             <ColorPicker
-              label="Background Color"
               color={backgroundColor}
+              label="Background Color"
               onChange={setStyleAttribute('backgroundColor')}
             />
             <ColorPicker
-              label="Color"
               color={color}
+              label="Color"
               onChange={setStyleAttribute('color')}
             />
             <span>Width </span>
             <Input
-              value={width}
               onChange={generateInputEventHandler(setStyleAttribute('width'))}
+              value={width}
             />
             <span>Height </span>
             <Input
-              value={height}
               onChange={generateInputEventHandler(setStyleAttribute('height'))}
+              value={height}
             />
             <span>Border Radius</span>
             <Input
-              value={borderRadius}
               onChange={generateInputEventHandler(
                 setStyleAttribute('borderRadius')
               )}
+              value={borderRadius}
             />
             <span>Border Width</span>
             <Input
-              value={borderWidth}
               onChange={generateInputEventHandler(
                 setStyleAttribute('borderWidth')
               )}
+              value={borderWidth}
             />
             <span>Padding</span>
             <Input
-              value={padding}
               onChange={generateInputEventHandler(setStyleAttribute('padding'))}
+              value={padding}
             />
           </div>
           <Input
-            value={text}
-            onChange={generateInputEventHandler(setText)}
             className="w-full mt-2"
+            onChange={generateInputEventHandler(setText)}
+            value={text}
             variant="multiline"
           />
         </>
       )}
       {sourceCode && (
         <Button
-          variant="primary"
-          onClick={() => setShowSourceCode(!showSourceCode)}
           className="mt-2 w-40"
+          onClick={() => setShowSourceCode(!showSourceCode)}
+          variant="primary"
         >
           {showSourceCode ? 'Show Style' : 'Show Source'}
         </Button>

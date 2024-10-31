@@ -1,12 +1,13 @@
 import {
-  useQuery,
-  useMutation,
   QueryClient,
-  UseQueryOptions,
+  useMutation,
   UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
 } from '@tanstack/react-query'
-import { Delete, Get, Post, Put, RequestParams } from '../requests'
+
 import { useHandleApiRequestError } from '../helpers'
+import { Delete, Get, Post, Put, RequestParams } from '../requests'
 import { QueryKeys } from './consts'
 
 type CommonReactQueryParams = {
@@ -38,14 +39,17 @@ export const useQueryData = <T>({
   ...rest
 }: QueryDataParams<T>) => {
   const handleApiRequestError = useHandleApiRequestError(onError)
+
   const response = useQuery<T>({
     queryKey,
     queryFn: () => Get({ url, headers }),
     ...rest,
   })
+
   if (response.isError) {
     handleApiRequestError(response.error)
   }
+
   return response
 }
 
@@ -54,7 +58,7 @@ export type RawMutationParams<T, E, P> = Omit<
   'onError' | 'queryKey'
 > &
   CommonReactQueryParams & {
-    apiFunction: <T>(params: RequestParams) => Promise<T>
+    apiFunction: <ReturnType>(params: RequestParams) => Promise<ReturnType>
     onError?: (err: unknown) => void
     body?: Record<string, unknown>
   }
@@ -70,6 +74,7 @@ export const useRawMutation = <T, E, P>({
   ...params
 }: RawMutationParams<T, E, P>) => {
   const handleApiRequestError = useHandleApiRequestError(onError)
+
   return useMutation<T, E, P>({
     mutationFn: (requestParams) =>
       apiFunction({ url, ...params, ...(requestParams ?? {}) }),

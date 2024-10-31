@@ -1,2 +1,2 @@
-export { MyNotesPage as default } from './MyNotesPage'
+export { default as MyNotesPage  } from './MyNotesPage'
 export * from './types'
