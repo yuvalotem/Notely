@@ -16,7 +16,7 @@ export function ColorPicker({
   onChange,
   color,
 }: ColorPickerProps) {
-  const colorPopperRef = useRef<HTMLElement | null>(null)
+  const colorPopperRef = useRef<HTMLButtonElement | null>(null)
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false)
 
   return (
