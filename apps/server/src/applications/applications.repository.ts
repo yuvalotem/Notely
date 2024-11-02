@@ -20,13 +20,9 @@ export class ApplicationsRepository {
   }
 
   async create(name: string): Promise<string> {
-    try {
-      const entity = await this.appRepository.save({ name })
+    const entity = await this.appRepository.save({ name })
 
-      return entity?.id
-    } catch (e) {
-      throw new Error('couldnt create application')
-    }
+    return entity?.id
   }
 
   async update(id: string, name: string): Promise<void> {

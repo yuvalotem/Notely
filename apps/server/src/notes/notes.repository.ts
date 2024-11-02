@@ -21,13 +21,9 @@ export class NotesRepository {
   }
 
   async create(note: NoteBody): Promise<string> {
-    try {
-      const entity = await this.appRepository.save(note)
+    const entity = await this.appRepository.save(note)
 
-      return entity?.id
-    } catch (e) {
-      throw new Error('couldnt create component')
-    }
+    return entity?.id
   }
 
   async update(id: string, note: Partial<NoteBody>): Promise<void> {
