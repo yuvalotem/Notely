@@ -9,8 +9,8 @@ import {
   Response,
 } from '@nestjs/common'
 import { Response as ResponseType } from 'express'
-import { io, Socket } from 'socket.io-client'
 
+import { socketIoClient } from '../SocketIoClient'
 import { NotesService } from './notes.service'
 import { NoteBody } from './types'
 
@@ -46,14 +46,8 @@ export class NotesController {
   async pushNote(@Body() body: { id: string }, @Response() res: ResponseType) {
     const note = await this.notesService.getNote(body.id)
 
-    const ioClient: Socket = io('http://localhost:8000', {
-      autoConnect: false,
-      transports: ['websocket', 'polling'],
-    })
-
-    ioClient.connect()
-    ioClient.emit('room', note.appId)
-    ioClient.emit('note:publish', {
+    socketIoClient.emit('room', note.appId)
+    socketIoClient.emit('note:publish', {
       content: note.component,
       roomId: note.appId,
     })

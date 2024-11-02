@@ -7,6 +7,8 @@ import { Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module'
+import { PORT } from './consts'
+import { socketIoClient } from './SocketIoClient'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -15,12 +17,12 @@ async function bootstrap() {
   const globalPrefix = 'api'
 
   app.setGlobalPrefix(globalPrefix)
-  const port = process.env.PORT || 8000
 
-  await app.listen(port)
+  await app.listen(PORT)
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${PORT}/${globalPrefix}`
   )
+  socketIoClient.connect()
 }
 
 bootstrap()
