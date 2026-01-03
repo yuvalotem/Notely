@@ -1,7 +1,7 @@
+import AppsIcon from '@mui/icons-material/Apps'
 import HomeIcon from '@mui/icons-material/Home'
 import Note from '@mui/icons-material/Note'
 import NotesIcon from '@mui/icons-material/Notes'
-import SettingsIcon from '@mui/icons-material/Settings'
 import { SvgIconProps } from '@mui/material'
 import { FunctionComponent } from 'react'
 
@@ -25,12 +25,12 @@ export const nestedAppRoutes: NestedAppRoutes = {
   },
   notes: {
     path: '/notes',
-    title: 'My Notes',
+    title: 'Notes',
     Icon: NotesIcon,
     sub: {
       createNote: {
         path: '/create',
-        title: 'My Notes',
+        title: 'Create Note',
         Icon: HomeIcon,
         hiddenFromNavbar: true,
       },
@@ -42,10 +42,10 @@ export const nestedAppRoutes: NestedAppRoutes = {
     Icon: Note,
     hiddenFromNavbar: true,
   },
-  settings: {
-    path: '/settings',
-    title: 'Settings',
-    Icon: SettingsIcon,
+  applications: {
+    path: '/applications',
+    title: 'Applications',
+    Icon: AppsIcon,
   },
 }
 

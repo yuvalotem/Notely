@@ -5,7 +5,12 @@ type CardElementProps = PropsWithChildren<{ className?: string }>
 
 function Card({ children, className }: CardElementProps) {
   return (
-    <div className={cx('w-full border-[1px] rounded-md', className)}>
+    <div
+      className={cx(
+        'w-full bg-white/40 backdrop-blur-xl border border-white/20 shadow-xl rounded-3xl overflow-hidden transition-transform hover:scale-[1.01] duration-300',
+        className
+      )}
+    >
       {children}
     </div>
   )
@@ -13,7 +18,12 @@ function Card({ children, className }: CardElementProps) {
 
 Card.Header = function Header({ children, className }: CardElementProps) {
   return (
-    <div className={cx('w-full border-solid border-b-[1px] p-2', className)}>
+    <div
+      className={cx(
+        'w-full border-b border-white/10 p-4 text-xl font-semibold text-ios-dark/90',
+        className
+      )}
+    >
       {children}
     </div>
   )

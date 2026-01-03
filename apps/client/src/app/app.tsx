@@ -11,7 +11,8 @@ const AppProviders = buildAppProviders([
 export function App() {
   return (
     <AppProviders>
-      <div className="flex flex-row h-[100vh] w-[100vw]">
+      <div className="mesh-bg" />
+      <div className="relative z-10 flex flex-col h-[100vh] w-[100vw] bg-white/30 backdrop-blur-sm overflow-hidden">
         <NavBar />
         <AppRouter />
       </div>

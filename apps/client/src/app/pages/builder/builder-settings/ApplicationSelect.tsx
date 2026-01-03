@@ -1,7 +1,7 @@
 import { MenuItem, Select } from '@mui/material'
 
 import { QueryKeys, useQueryData } from '../../../api'
-import { ApplicationsResponse } from '../../settings/types'
+import { ApplicationsResponse } from '../../applications/types'
 import { useBuilderContext } from '../BuilderContext'
 
 export function ApplicationSelect() {

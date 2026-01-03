@@ -37,7 +37,7 @@ export function ApplicationsList() {
     <div className="grid grid-cols-3 gap-4 mt-2 px-2">
       {data?.apps?.map((app) => (
         <Card className="w-full py-2 px-4 flex flex-col gap-2" key={app.id}>
-          <Card.Header className="flex flex-row gap-2">
+          <Card.Header className="flex flex-row gap-2 items-center">
             <AppsIcon color="action" />
             {app.name}
           </Card.Header>

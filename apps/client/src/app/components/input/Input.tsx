@@ -20,7 +20,8 @@ const inputVariantGuard = (
 ): props is Extract<InputProps, { variant: 'multiline' }> =>
   'variant' in props && props.variant === 'multiline'
 
-const inputBaseStyle = 'px-2 py-0.5 rounded border-[1px] border-gray-200'
+const inputBaseStyle =
+  'px-4 py-3 rounded-2xl border-none bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-ios-blue/50 outline-none transition-all placeholder:text-gray-500 text-ios-dark shadow-sm hover:bg-white/60'
 
 export function Input(props: InputProps) {
   const { className } = props
