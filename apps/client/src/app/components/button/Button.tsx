@@ -3,24 +3,44 @@ import { forwardRef, PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 const buttonStyles = cva(
-  ['font-semibold', 'border', 'rounded', 'cursor-pointer'],
+  [
+    'font-medium',
+    'border',
+    'rounded-full',
+    'cursor-pointer',
+    'transition-all',
+    'duration-200',
+    'active:scale-95',
+    'flex',
+    'items-center',
+    'justify-center',
+  ],
   {
     variants: {
       intent: {
         primary: [
-          'bg-blue-500',
+          'bg-ios-blue',
           'text-white',
           'border-transparent',
-          'hover:bg-blue-600',
+          'hover:bg-ios-blue/90',
+          'shadow-md',
+          'hover:shadow-lg',
         ],
         secondary: [
-          'bg-white',
-          'text-gray-800',
-          'border-gray-400',
-          'hover:bg-gray-100',
+          'bg-white/50',
+          'backdrop-blur-sm',
+          'text-ios-dark',
+          'border-white/20',
+          'hover:bg-white/80',
+          'shadow-sm',
         ],
-        text: ['text-black', 'border-none', 'hover:bg-gray-200'],
-        danger: ['text-white', 'bg-red-500', 'hover:bg-red-700'],
+        text: ['text-ios-blue', 'border-none', 'hover:bg-ios-blue/10'],
+        danger: [
+          'text-white',
+          'bg-ios-red',
+          'hover:bg-ios-red/90',
+          'shadow-md',
+        ],
       },
       size: {
         small: ['text-xs', 'py-0.5', 'px-1'],

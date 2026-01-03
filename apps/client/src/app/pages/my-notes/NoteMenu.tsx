@@ -67,6 +67,15 @@ export default function NoteMenu({ id, name }: NoteProps) {
             width: '12rem',
           },
         }}
+        PaperProps={{
+          sx: {
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            backdropFilter: 'blur(4px)',
+            borderRadius: '16px',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+          },
+        }}
         anchorEl={anchorEl}
         onClose={onClose}
         open={isOpen}

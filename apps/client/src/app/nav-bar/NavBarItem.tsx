@@ -15,14 +15,18 @@ export function NavBarItem({ label, path, icon }: NavBarItemProps) {
 
   return (
     <div
-      className="flex flex-row gap-4 cursor-pointer border-b-[1px] py-2 pl-2 hover:bg-gray-200"
+      className="group flex flex-row items-center gap-2 cursor-pointer py-2 px-4 rounded-xl transition-all duration-300 hover:bg-white/50 hover:shadow-sm active:scale-95"
       onClick={onClick}
       onKeyDown={onClick}
       role="button"
       tabIndex={0}
     >
-      <span>{icon}</span>
-      {label}
+      <span className="text-ios-gray-600 group-hover:text-ios-blue transition-colors duration-300">
+        {icon}
+      </span>
+      <span className="hidden sm:inline font-medium text-sm text-ios-dark/80 group-hover:text-ios-dark tracking-wide">
+        {label}
+      </span>
     </div>
   )
 }

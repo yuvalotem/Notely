@@ -16,7 +16,7 @@ const introducers = [
     title: 'Configure your application',
     description:
       'Create multiple applications and configure them to work with Notely',
-    path: appRoutes.settings.path,
+    path: appRoutes.applications.path,
   },
 ]
 

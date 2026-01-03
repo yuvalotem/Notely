@@ -5,6 +5,7 @@ import { CSSProperties, useEffect } from 'react'
 import { Button } from '../../components'
 import { useNoteActions } from '../../hooks'
 import { PageHeader } from '../../layout'
+import { PageBody } from '../../layout/PageBody'
 import { NoteProps } from '../my-notes'
 import { BuidlerPreview } from './BuidlerPreview'
 import { BuilderSettings } from './builder-settings'
@@ -100,21 +101,21 @@ export function BuilderPageContent({
             </Button>
           </Tooltip>
         }
-        title="Create your element"
+        title="Create Note"
       />
-      {loading ? (
-        <div className="flex flex-row h-full justify-center items-center">
-          <CircularProgress />
-        </div>
-      ) : (
-        <div className="flex flex-row h-full">
-          <div className="flex flex-col w-1/2 mt-4 gap-4 h-full">
-            <BuidlerPreview />
-            <BuilderSettings />
-          </div>
-          <StyleBar />
-        </div>
-      )}
+      <PageBody className="flex flex-row h-full">
+        {loading ? (
+          <CircularProgress className="mx-auto mt-12" />
+        ) : (
+          <>
+            <div className="flex flex-col w-1/2 mt-4 gap-4 h-full">
+              <BuidlerPreview />
+              <BuilderSettings />
+            </div>
+            <StyleBar />
+          </>
+        )}
+      </PageBody>
     </div>
   )
 }

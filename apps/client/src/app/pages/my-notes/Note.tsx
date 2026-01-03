@@ -10,7 +10,7 @@ export function Note(props: NoteProps) {
   return (
     <Card className="w-fit mt-2 border-[1px] p-2 max-h-80 overflow-scroll">
       <Card.Header className="flex flex-row justify-between mb-4 items-center min-w-40">
-        Note: {name}
+        {name}
         <NoteMenu {...props} />
       </Card.Header>
       <Card.Body>

@@ -7,14 +7,17 @@ import { appRoutes } from './routes'
 const HomePage = lazy(() => import('./pages/home/HomePage'))
 const MyNotesPage = lazy(() => import('./pages/my-notes/MyNotesPage'))
 const BuilderPage = lazy(() => import('./pages/builder/BuilderPage'))
-const SettingsPage = lazy(() => import('./pages/settings/SettingsPage'))
+
+const ApplicationsPage = lazy(
+  () => import('./pages/applications/ApplicationsPage')
+)
 
 const pathComponentMap: Record<string, FunctionComponent> = {
   [appRoutes.home.path]: HomePage,
   [appRoutes.notes.path]: MyNotesPage,
   [appRoutes.note.path]: BuilderPage,
   [appRoutes.createNote.path]: BuilderPage,
-  [appRoutes.settings.path]: SettingsPage,
+  [appRoutes.applications.path]: ApplicationsPage,
 }
 
 export function AppRouter() {
