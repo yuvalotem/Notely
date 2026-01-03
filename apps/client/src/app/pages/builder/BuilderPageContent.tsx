@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Tooltip } from '@mui/material'
 import parseStringfyHtmlToReactElement from 'html-react-parser'
 import { CSSProperties, useEffect } from 'react'
 
@@ -10,6 +10,22 @@ import { BuidlerPreview } from './BuidlerPreview'
 import { BuilderSettings } from './builder-settings'
 import { useBuilderContext } from './BuilderContext'
 import { StyleBar } from './StyleBar'
+
+const getSaveButtonDisabledState = ({
+  sourceCode,
+  name,
+  appId,
+  loading,
+}: {
+  sourceCode?: string
+  name?: string
+  appId?: string
+  loading: boolean
+}) => {
+  const isDisabled = !sourceCode || !name || !appId || loading
+
+  return { isDisabled, message: isDisabled ? 'Nothing to update' : '' }
+}
 
 type ReactElementProps = { children: string; style: CSSProperties }
 
@@ -66,13 +82,23 @@ export function BuilderPageContent({
     }
   }
 
+  const { isDisabled: isSavedDisabled, message: saveDisabledMessage } =
+    getSaveButtonDisabledState({
+      sourceCode,
+      name,
+      appId,
+      loading,
+    })
+
   return (
     <div className="w-full h-full flex flex-col">
       <PageHeader
         actions={
-          <Button disabled={!sourceCode || loading} onClick={onCreate}>
-            Save
-          </Button>
+          <Tooltip placement="top" title={saveDisabledMessage}>
+            <Button disabled={isSavedDisabled} onClick={onCreate}>
+              Save
+            </Button>
+          </Tooltip>
         }
         title="Create your element"
       />
