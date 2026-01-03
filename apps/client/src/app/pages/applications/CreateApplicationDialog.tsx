@@ -34,7 +34,6 @@ export function CreateApplicationDialog({
         Create Application
         <div className="flex flex-row gap-2">
           <Input
-            disabled={!appName}
             onValueChange={setAppName}
             placeholder="name"
             value={appName}
