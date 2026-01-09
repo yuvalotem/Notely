@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority'
-import { forwardRef, PropsWithChildren } from 'react'
+import { forwardRef } from 'react'
 
 import { cn } from '../../utils'
 
@@ -65,7 +65,7 @@ const buttonStyles = cva(
 )
 
 type ButtonVariant = 'primary' | 'secondary' | 'text' | 'danger'
-export type ButtonProps = PropsWithChildren<{
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string
   onClick?: () => void
   /**
@@ -74,7 +74,7 @@ export type ButtonProps = PropsWithChildren<{
   variant?: ButtonVariant
   size?: 'small' | 'medium' | 'large'
   disabled?: boolean
-}>
+}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, variant, size, disabled, ...props }, ref) => (

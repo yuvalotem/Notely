@@ -10,7 +10,10 @@ export function PageBody({
   return (
     <motion.div
       animate={{ opacity: 1, y: 0 }}
-      className={cn('w-full h-full overflow-y-auto no-scrollbar', className)}
+      className={cn(
+        'w-full min-h-0 px-[var(--app-margin-x)] pt-8 pb-20',
+        className
+      )}
       initial={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
