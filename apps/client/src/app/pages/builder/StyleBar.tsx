@@ -60,44 +60,33 @@ export function StyleBar() {
         ) : (
           <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-sm font-medium text-ios-dark/60 ml-1"
-                  htmlFor="bg-color-picker"
-                >
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-ios-dark/60 ml-1">
                   Background Color
-                </label>
+                </span>
                 <ColorPicker
                   color={backgroundColor}
-                  id="bg-color-picker"
                   label="Select Background"
                   onChange={setStyleAttribute('backgroundColor')}
                 />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-sm font-medium text-ios-dark/60 ml-1"
-                  htmlFor="text-color-picker"
-                >
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-ios-dark/60 ml-1">
                   Text Color
-                </label>
+                </span>
                 <ColorPicker
                   color={color}
-                  id="text-color-picker"
                   label="Select Color"
                   onChange={setStyleAttribute('color')}
                 />
-              </div>
+              </label>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-sm font-medium text-ios-dark/60 ml-1"
-                  htmlFor="width-input"
-                >
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-ios-dark/60 ml-1">
                   Width
-                </label>
+                </span>
                 <Input
                   id="width-input"
                   onChange={generateInputEventHandler(
@@ -105,14 +94,11 @@ export function StyleBar() {
                   )}
                   value={width}
                 />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-sm font-medium text-ios-dark/60 ml-1"
-                  htmlFor="height-input"
-                >
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-ios-dark/60 ml-1">
                   Height
-                </label>
+                </span>
                 <Input
                   id="height-input"
                   onChange={generateInputEventHandler(
@@ -120,14 +106,11 @@ export function StyleBar() {
                   )}
                   value={height}
                 />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-sm font-medium text-ios-dark/60 ml-1"
-                  htmlFor="border-radius-input"
-                >
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-ios-dark/60 ml-1">
                   Border Radius
-                </label>
+                </span>
                 <Input
                   id="border-radius-input"
                   onChange={generateInputEventHandler(
@@ -135,14 +118,11 @@ export function StyleBar() {
                   )}
                   value={borderRadius}
                 />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-sm font-medium text-ios-dark/60 ml-1"
-                  htmlFor="border-width-input"
-                >
+              </label>
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-ios-dark/60 ml-1">
                   Border Width
-                </label>
+                </span>
                 <Input
                   id="border-width-input"
                   onChange={generateInputEventHandler(
@@ -150,16 +130,13 @@ export function StyleBar() {
                   )}
                   value={borderWidth}
                 />
-              </div>
+              </label>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label
-                className="text-sm font-medium text-ios-dark/60 ml-1"
-                htmlFor="padding-input"
-              >
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-ios-dark/60 ml-1">
                 Padding
-              </label>
+              </span>
               <Input
                 id="padding-input"
                 onChange={generateInputEventHandler(
@@ -167,15 +144,12 @@ export function StyleBar() {
                 )}
                 value={padding}
               />
-            </div>
+            </label>
 
-            <div className="flex flex-col gap-2">
-              <label
-                className="text-sm font-medium text-ios-dark/60 ml-1"
-                htmlFor="content-input"
-              >
+            <label className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-ios-dark/60 ml-1">
                 Note Content
-              </label>
+              </span>
               <Input
                 className="w-full"
                 id="content-input"
@@ -184,7 +158,7 @@ export function StyleBar() {
                 value={text}
                 variant="multiline"
               />
-            </div>
+            </label>
           </div>
         )}
       </Card.Body>

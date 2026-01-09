@@ -9,6 +9,7 @@ type ColorPickerProps = {
   color?: string
   onChange: (val: string) => void
   className?: string
+  id?: string
 }
 export function ColorPicker({
   label,
@@ -16,7 +17,7 @@ export function ColorPicker({
   onChange,
   color,
   id,
-}: ColorPickerProps & { id?: string }) {
+}: ColorPickerProps) {
   const colorPopperRef = useRef<HTMLButtonElement | null>(null)
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false)
 

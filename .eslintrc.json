@@ -1,7 +1,20 @@
 {
   "root": true,
-  "plugins": ["@nx", "react", "@typescript-eslint", "prettier", "simple-import-sort", "import"],
-  "extends": ["airbnb", "airbnb-typescript", "airbnb/hooks", "plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
+  "plugins": [
+    "@nx",
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort",
+    "import"
+  ],
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -113,6 +126,7 @@
         "arraysInObjects": true
       }
     ],
+    "jsx-a11y/label-has-associated-control": "off",
     "array-bracket-spacing": [
       "error",
       "always",

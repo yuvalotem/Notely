@@ -6,9 +6,9 @@
     "start:client": "nx run client:serve",
     "start:server": "nx run server:serve",
     "start:demo-js": "nx run demo-js:serve",
-    "lint": "nx run-many --target=lint --all --output-style=stream --color",
-    "lint:fix": "nx run-many --target=lint --all --fix --output-style=stream --color",
-    "type-check": "yarn tsc -- -b ./apps/client/tsconfig.json ./apps/server/tsconfig.json ./apps/demo-js/tsconfig.json ./libs/notely-js/tsconfig.json --incremental"
+    "lint": "nx run-many --target=lint --all --output-style=stream",
+    "lint:fix": "nx run-many --target=lint --all --fix --output-style=stream",
+    "type-check": "tsc -b ./apps/client/tsconfig.json ./apps/server/tsconfig.json ./apps/demo-js/tsconfig.json ./libs/notely-js/tsconfig.json --incremental"
   },
   "private": true,
   "dependencies": {

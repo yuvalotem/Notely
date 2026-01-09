@@ -9,29 +9,23 @@ export function BuilderSettings() {
     <Card>
       <Card.Header>General Settings</Card.Header>
       <Card.Body className="flex flex-col gap-6 p-6">
-        <div className="flex flex-col gap-2">
-          <label
-            className="text-sm font-medium text-ios-dark/60 ml-1"
-            htmlFor="target-app-select"
-          >
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-medium text-ios-dark/60 ml-1">
             Target Application
-          </label>
+          </span>
           <ApplicationSelect id="target-app-select" />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label
-            className="text-sm font-medium text-ios-dark/60 ml-1"
-            htmlFor="note-name-input"
-          >
+        </label>
+        <label className="flex flex-col gap-2">
+          <span className="text-sm font-medium text-ios-dark/60 ml-1">
             Note Name
-          </label>
+          </span>
           <Input
             id="note-name-input"
             onValueChange={setName}
             placeholder="Enter note name..."
             value={name}
           />
-        </div>
+        </label>
       </Card.Body>
     </Card>
   )
