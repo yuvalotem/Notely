@@ -14,10 +14,6 @@ export function PageBody({
         className
       )}
       initial={{ opacity: 0, y: 10 }}
-      style={{
-        paddingLeft: 'var(--app-margin-x)',
-        paddingRight: 'var(--app-margin-x)',
-      }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
       {children}

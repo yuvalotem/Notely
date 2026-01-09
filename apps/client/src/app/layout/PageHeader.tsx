@@ -6,13 +6,7 @@ type PageHeaderProps = {
 }
 export function PageHeader({ title, actions }: PageHeaderProps) {
   return (
-    <div
-      className="flex w-full flex-row justify-between h-20 items-center bg-transparent shrink-0"
-      style={{
-        paddingLeft: 'var(--app-margin-x)',
-        paddingRight: 'var(--app-margin-x)',
-      }}
-    >
+    <div className="flex w-full flex-row justify-between items-center bg-transparent shrink-0">
       <h1 className="text-3xl font-bold text-ios-dark tracking-tight pr-2 pb-1">
         {title}
       </h1>

@@ -4,8 +4,7 @@ import { CSSProperties, useEffect } from 'react'
 
 import { Button } from '../../components'
 import { useNoteActions } from '../../hooks'
-import { PageHeader } from '../../layout'
-import { PageBody } from '../../layout/PageBody'
+import { PageBody, PageContainer, PageHeader } from '../../layout'
 import { NoteProps } from '../my-notes'
 import { BuidlerPreview } from './BuidlerPreview'
 import { BuilderSettings } from './builder-settings'
@@ -92,7 +91,7 @@ export function BuilderPageContent({
     })
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <PageContainer>
       <PageHeader
         actions={
           <Tooltip placement="top" title={saveDisabledMessage}>
@@ -116,6 +115,6 @@ export function BuilderPageContent({
           </>
         )}
       </PageBody>
-    </div>
+    </PageContainer>
   )
 }
