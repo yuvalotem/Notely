@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react'
-import { twMerge } from 'tailwind-merge'
+
+import { cn } from '../utils'
 
 export function PageContainer({
   children,
@@ -7,7 +8,7 @@ export function PageContainer({
 }: PropsWithChildren<{ className?: string }>) {
   return (
     <div
-      className={twMerge(
+      className={cn(
         'flex flex-col w-full h-full overflow-hidden pt-6',
         className
       )}

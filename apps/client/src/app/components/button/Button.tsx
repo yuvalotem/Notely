@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority'
 import { forwardRef, PropsWithChildren } from 'react'
-import { twMerge } from 'tailwind-merge'
+
+import { cn } from '../../utils'
 
 const buttonStyles = cva(
   [
@@ -78,7 +79,7 @@ export type ButtonProps = PropsWithChildren<{
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, variant, size, disabled, ...props }, ref) => (
     <button
-      className={twMerge(
+      className={cn(
         buttonStyles({ intent: variant, size, disabled }),
         className
       )}

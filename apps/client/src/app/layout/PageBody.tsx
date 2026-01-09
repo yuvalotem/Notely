@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { PropsWithChildren } from 'react'
-import { twMerge } from 'tailwind-merge'
+
+import { cn } from '../utils'
 
 export function PageBody({
   children,
@@ -9,10 +10,7 @@ export function PageBody({
   return (
     <motion.div
       animate={{ opacity: 1, y: 0 }}
-      className={twMerge(
-        'w-full h-full overflow-y-auto no-scrollbar',
-        className
-      )}
+      className={cn('w-full h-full overflow-y-auto no-scrollbar', className)}
       initial={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
