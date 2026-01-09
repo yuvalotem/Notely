@@ -25,8 +25,8 @@ export function AppRouter() {
     <Suspense fallback={<CircularProgress />}>
       <Routes>
         <Route
+          element={<Navigate replace to={appRoutes.overview.path} />}
           path="/"
-          element={<Navigate to={appRoutes.overview.path} replace />}
         />
         {Object.keys(appRoutes).map((key) => {
           const { path } = appRoutes[key]

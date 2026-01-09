@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 import { Button, Card } from '../../components'
-import { PageBody, PageContainer, PageHeader } from '../../layout'
+import { PageBody, PageContainer } from '../../layout'
 import { appRoutes } from '../../routes/routes'
 
 const introducers = [
