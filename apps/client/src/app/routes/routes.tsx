@@ -1,5 +1,5 @@
 import AppsIcon from '@mui/icons-material/Apps'
-import HomeIcon from '@mui/icons-material/Home'
+import DashboardIcon from '@mui/icons-material/Dashboard'
 import Note from '@mui/icons-material/Note'
 import NotesIcon from '@mui/icons-material/Notes'
 import { SvgIconProps } from '@mui/material'
@@ -18,10 +18,10 @@ type NestedAppRoutes = Record<
 >
 
 export const nestedAppRoutes: NestedAppRoutes = {
-  home: {
-    path: '/',
-    title: 'Home',
-    Icon: HomeIcon,
+  overview: {
+    path: '/overview',
+    title: 'Overview',
+    Icon: DashboardIcon,
   },
   notes: {
     path: '/notes',
@@ -31,7 +31,7 @@ export const nestedAppRoutes: NestedAppRoutes = {
       createNote: {
         path: '/create',
         title: 'Create Note',
-        Icon: HomeIcon,
+        Icon: DashboardIcon,
         hiddenFromNavbar: true,
       },
     },

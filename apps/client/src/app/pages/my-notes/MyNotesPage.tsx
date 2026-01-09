@@ -2,8 +2,7 @@ import { Skeleton } from '@mui/material'
 
 import { QueryKeys, useQueryData } from '../../api'
 import { Card } from '../../components'
-import { PageHeader } from '../../layout'
-import { PageBody } from '../../layout/PageBody'
+import { PageBody, PageContainer, PageHeader } from '../../layout'
 import { appRoutes } from '../../routes'
 import { MyNotesPageActions } from './MyNotesPageActions'
 import { Note } from './Note'
@@ -45,7 +44,7 @@ export default function MyNotesPage() {
   })
 
   return (
-    <div className="w-full h-full">
+    <PageContainer>
       <PageHeader
         actions={<MyNotesPageActions />}
         title={appRoutes.notes.title}
@@ -57,6 +56,6 @@ export default function MyNotesPage() {
           data?.notes?.map((note) => <Note key={note.id} {...note} />)
         )}
       </PageBody>
-    </div>
+    </PageContainer>
   )
 }

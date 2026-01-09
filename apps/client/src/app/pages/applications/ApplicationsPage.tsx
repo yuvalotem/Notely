@@ -1,8 +1,7 @@
 import { useState } from 'react'
 
 import { Button } from '../../components'
-import { PageHeader } from '../../layout'
-import { PageBody } from '../../layout/PageBody'
+import { PageBody, PageContainer, PageHeader } from '../../layout'
 import { appRoutes } from '../../routes'
 import { ApplicationsList } from './ApplicationsList'
 import { CreateApplicationDialog } from './CreateApplicationDialog'
@@ -12,7 +11,7 @@ export default function ApplicationsPage() {
     useState(false)
 
   return (
-    <div className="w-full h-full">
+    <PageContainer>
       <PageHeader
         actions={
           <Button onClick={() => setCreateAppDialogVisiblity(true)}>Add</Button>
@@ -26,6 +25,6 @@ export default function ApplicationsPage() {
         isOpen={isCreateAppDialogVisible}
         onClose={() => setCreateAppDialogVisiblity(false)}
       />
-    </div>
+    </PageContainer>
   )
 }
