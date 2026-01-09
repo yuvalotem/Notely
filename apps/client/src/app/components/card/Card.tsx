@@ -20,7 +20,7 @@ Card.Header = function Header({ children, className }: CardElementProps) {
   return (
     <div
       className={cx(
-        'w-full border-b border-white/10 p-4 text-xl font-semibold text-ios-dark/90',
+        'w-full border-b border-white/10 p-2 text-xl font-semibold text-ios-dark/90',
         className
       )}
     >

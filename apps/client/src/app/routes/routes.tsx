@@ -10,6 +10,7 @@ type RouteOptions = {
   title: string
   hiddenFromNavbar?: boolean
   Icon: FunctionComponent<SvgIconProps>
+  matcher?: (pathname: string) => boolean
 }
 
 type NestedAppRoutes = Record<
@@ -50,21 +51,44 @@ export const nestedAppRoutes: NestedAppRoutes = {
 }
 
 const flattenRoutes = (routes: NestedAppRoutes): Record<string, RouteOptions> =>
-  Object.entries(routes).reduce(
-    (acc, [key, route]) => ({
+  Object.entries(routes).reduce((acc, [key, route]) => {
+    const flatRoute = {
+      ...route,
+      matcher: (pathname: string) =>
+        pathname === route.path || pathname.startsWith(`${route.path}/`),
+    }
+
+    return {
       ...acc,
-      [key]: route,
+      [key]: flatRoute,
       ...(route.sub
-        ? Object.entries(route.sub).reduce(
-            (subAcc, [subKey, subRoute]) => ({
+        ? Object.entries(route.sub).reduce((subAcc, [subKey, subRoute]) => {
+            const fullPath = `${route.path}${subRoute.path}`
+
+            return {
               ...subAcc,
-              [subKey]: { ...subRoute, path: `${route.path}${subRoute.path}` },
-            }),
-            {}
-          )
+              [subKey]: {
+                ...subRoute,
+                path: fullPath,
+                matcher: (pathname: string) =>
+                  pathname === fullPath || pathname.startsWith(`${fullPath}/`),
+              },
+            }
+          }, {})
         : {}),
-    }),
-    {}
-  )
+    }
+  }, {})
 
 export const appRoutes = flattenRoutes(nestedAppRoutes)
+
+// Custom matchers for specific routes that don't follow the default hierarchy
+appRoutes.notes.matcher = (pathname: string) =>
+  pathname === appRoutes.notes.path ||
+  pathname.startsWith(`${appRoutes.notes.path}/`) ||
+  pathname.startsWith('/note/')
+
+export const isRouteActive = (path: string, pathname: string) => {
+  const route = Object.values(appRoutes).find((r) => r.path === path)
+
+  return route ? route.matcher?.(pathname) ?? false : false
+}

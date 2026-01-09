@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge'
+import { cn } from '../../utils'
 
 type HtmlInputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -25,7 +25,7 @@ const inputBaseStyle =
 
 export function Input(props: InputProps) {
   const { className } = props
-  const finalClassName = twMerge(inputBaseStyle, className)
+  const finalClassName = cn(inputBaseStyle, className)
 
   if (inputVariantGuard(props)) {
     return <textarea cols={40} rows={5} {...props} className={finalClassName} />

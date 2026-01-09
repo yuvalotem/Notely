@@ -7,7 +7,7 @@ const items: NavBarItemProps[] = Object.values(appRoutes)
   .map(({ title, Icon, ...rest }) => ({
     ...rest,
     label: title,
-    icon: <Icon color="action" />,
+    icon: <Icon color="inherit" />,
   }))
 
 export function NavBar() {
