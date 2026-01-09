@@ -7,16 +7,7 @@ export function PageContainer({
   className,
 }: PropsWithChildren<{ className?: string }>) {
   return (
-    <div
-      className={cn(
-        'flex flex-col w-full h-full overflow-hidden pt-6',
-        className
-      )}
-      style={{
-        paddingLeft: 'var(--app-margin-x)',
-        paddingRight: 'var(--app-margin-x)',
-      }}
-    >
+    <div className={cn('flex flex-col w-full min-h-0', className)}>
       {children}
     </div>
   )

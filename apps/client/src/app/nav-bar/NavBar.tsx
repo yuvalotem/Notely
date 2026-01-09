@@ -12,13 +12,7 @@ const items: NavBarItemProps[] = Object.values(appRoutes)
 
 export function NavBar() {
   return (
-    <div
-      className="sticky top-0 flex flex-row h-16 w-full border-b border-white/20 bg-white/40 backdrop-blur-xl shadow-lg items-center shrink-0 z-50"
-      style={{
-        paddingLeft: 'var(--app-margin-x)',
-        paddingRight: 'var(--app-margin-x)',
-      }}
-    >
+    <div className="sticky top-0 flex flex-row h-16 w-full border-b border-white/20 bg-white/40 backdrop-blur-xl shadow-lg items-center shrink-0 z-50 px-[var(--app-margin-x)]">
       <h1 className="flex h-full items-center mr-12 gap-3 text-xl font-bold text-ios-dark/80 tracking-tight">
         <img
           alt="Notely"

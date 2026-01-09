@@ -6,9 +6,9 @@ import { Button } from '../../components'
 import { useNoteActions } from '../../hooks'
 import { PageBody, PageContainer, PageHeader } from '../../layout'
 import { NoteProps } from '../my-notes'
-import { BuidlerPreview } from './BuidlerPreview'
 import { BuilderSettings } from './builder-settings'
 import { useBuilderContext } from './BuilderContext'
+import { BuilderPreview } from './BuilderPreview'
 import { StyleBar } from './StyleBar'
 
 const getSaveButtonDisabledState = ({
@@ -24,7 +24,7 @@ const getSaveButtonDisabledState = ({
 }) => {
   const isDisabled = !sourceCode || !name || !appId || loading
 
-  return { isDisabled, message: isDisabled ? 'Nothing to update' : '' }
+  return { isDisabled, message: isDisabled ? 'Nothing to change' : '' }
 }
 
 type ReactElementProps = { children: string; style: CSSProperties }
@@ -96,23 +96,27 @@ export function BuilderPageContent({
         actions={
           <Tooltip placement="top" title={saveDisabledMessage}>
             <Button disabled={isSavedDisabled} onClick={onCreate}>
-              Save
+              {note ? 'Edit' : 'Build'}
             </Button>
           </Tooltip>
         }
-        title="Create Note"
+        title={note ? 'Edit Note' : 'Build Note'}
       />
-      <PageBody className="flex flex-row h-full">
+      <PageBody>
         {loading ? (
-          <CircularProgress className="mx-auto mt-12" />
+          <div className="flex items-center justify-center h-[60vh]">
+            <CircularProgress />
+          </div>
         ) : (
-          <>
-            <div className="flex flex-col w-1/2 mt-4 gap-4 h-full">
-              <BuidlerPreview />
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <div className="md:col-span-12 lg:col-span-4 flex flex-col gap-6">
               <BuilderSettings />
+              <StyleBar />
             </div>
-            <StyleBar />
-          </>
+            <div className="md:col-span-12 lg:col-span-8 flex flex-col sticky top-40">
+              <BuilderPreview />
+            </div>
+          </div>
         )}
       </PageBody>
     </PageContainer>

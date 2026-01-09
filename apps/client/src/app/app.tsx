@@ -12,7 +12,7 @@ export function App() {
   return (
     <AppProviders>
       <div className="mesh-bg" />
-      <div className="relative z-10 flex flex-col h-[100vh] w-[100vw] bg-white/30 backdrop-blur-sm overflow-hidden">
+      <div className="relative z-10 flex flex-col h-[100vh] w-[100vw] bg-white/30 backdrop-blur-sm overflow-y-auto no-scrollbar overflow-x-hidden">
         <NavBar />
         <AppRouter />
       </div>

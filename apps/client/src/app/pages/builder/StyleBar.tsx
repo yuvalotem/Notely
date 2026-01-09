@@ -1,6 +1,6 @@
 import { ChangeEventHandler, CSSProperties, useState } from 'react'
 
-import { Button, CodeEditor, ColorPicker, Input } from '../../components'
+import { Button, Card, CodeEditor, ColorPicker, Input } from '../../components'
 import { useBuilderContext } from './BuilderContext'
 
 export function StyleBar() {
@@ -20,13 +20,6 @@ export function StyleBar() {
   const setStyleAttribute = (key: keyof CSSProperties) => (val: string) =>
     setStyle((oldStyle) => ({ ...oldStyle, [key]: val }))
 
-  /**
-   * Generates an event handler for an input field that calls the provided callback
-   * with the value of the input element as an argument.
-   *
-   * @param callback - The callback to be called with the value of the input element.
-   * @returns An event handler for an input field.
-   */
   const generateInputEventHandler =
     (callback: (val: string) => void): ChangeEventHandler<HTMLInputElement> =>
     (e) =>
@@ -36,82 +29,165 @@ export function StyleBar() {
   const isSourceCodeVisible = showSourceCode && sourceCode
   const [editorValue, setEditorValue] = useState<string>()
 
-  const hadnleEditorChange = (val?: string) => {
+  const handleEditorChange = (val?: string) => {
     setSourceCode(val)
     setEditorValue(val)
   }
 
-  const title = isSourceCodeVisible ? 'Source Code' : 'Creaete and Customize'
+  const title = isSourceCodeVisible ? 'Source Code' : 'Design & Content'
 
   return (
-    <div className="mr-4 p-2 border-[1px] border-t-0 w-1/2 h-full">
-      <h1 className="mb-2">{title}</h1>
-      {isSourceCodeVisible ? (
-        <CodeEditor
-          height="80vh"
-          onChange={hadnleEditorChange}
-          value={editorValue ?? sourceCode}
-        />
-      ) : (
-        <>
-          <div className="grid grid-cols-2 gap-2">
-            <ColorPicker
-              color={backgroundColor}
-              label="Background Color"
-              onChange={setStyleAttribute('backgroundColor')}
-            />
-            <ColorPicker
-              color={color}
-              label="Color"
-              onChange={setStyleAttribute('color')}
-            />
-            <span>Width </span>
-            <Input
-              onChange={generateInputEventHandler(setStyleAttribute('width'))}
-              value={width}
-            />
-            <span>Height </span>
-            <Input
-              onChange={generateInputEventHandler(setStyleAttribute('height'))}
-              value={height}
-            />
-            <span>Border Radius</span>
-            <Input
-              onChange={generateInputEventHandler(
-                setStyleAttribute('borderRadius')
-              )}
-              value={borderRadius}
-            />
-            <span>Border Width</span>
-            <Input
-              onChange={generateInputEventHandler(
-                setStyleAttribute('borderWidth')
-              )}
-              value={borderWidth}
-            />
-            <span>Padding</span>
-            <Input
-              onChange={generateInputEventHandler(setStyleAttribute('padding'))}
-              value={padding}
-            />
-          </div>
-          <Input
-            className="w-full mt-2"
-            onChange={generateInputEventHandler(setText)}
-            value={text}
-            variant="multiline"
+    <Card>
+      <Card.Header className="flex items-center justify-between">
+        <span>{title}</span>
+        {sourceCode && (
+          <Button
+            className="h-8 px-3 text-xs"
+            onClick={() => setShowSourceCode(!showSourceCode)}
+            variant="primary"
+          >
+            {showSourceCode ? 'Back to Editor' : 'View Source'}
+          </Button>
+        )}
+      </Card.Header>
+      <Card.Body className="p-6">
+        {isSourceCodeVisible ? (
+          <CodeEditor
+            height="600px"
+            onChange={handleEditorChange}
+            value={editorValue ?? sourceCode}
           />
-        </>
-      )}
-      {sourceCode && (
-        <Button
-          className="mt-2 w-40"
-          onClick={() => setShowSourceCode(!showSourceCode)}
-          variant="primary"
-        >
-          {showSourceCode ? 'Show Style' : 'Show Source'}
-        </Button>
-      )}
-    </div>
+        ) : (
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label
+                  className="text-sm font-medium text-ios-dark/60 ml-1"
+                  htmlFor="bg-color-picker"
+                >
+                  Background Color
+                </label>
+                <ColorPicker
+                  color={backgroundColor}
+                  id="bg-color-picker"
+                  label="Select Background"
+                  onChange={setStyleAttribute('backgroundColor')}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label
+                  className="text-sm font-medium text-ios-dark/60 ml-1"
+                  htmlFor="text-color-picker"
+                >
+                  Text Color
+                </label>
+                <ColorPicker
+                  color={color}
+                  id="text-color-picker"
+                  label="Select Color"
+                  onChange={setStyleAttribute('color')}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <label
+                  className="text-sm font-medium text-ios-dark/60 ml-1"
+                  htmlFor="width-input"
+                >
+                  Width
+                </label>
+                <Input
+                  id="width-input"
+                  onChange={generateInputEventHandler(
+                    setStyleAttribute('width')
+                  )}
+                  value={width}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label
+                  className="text-sm font-medium text-ios-dark/60 ml-1"
+                  htmlFor="height-input"
+                >
+                  Height
+                </label>
+                <Input
+                  id="height-input"
+                  onChange={generateInputEventHandler(
+                    setStyleAttribute('height')
+                  )}
+                  value={height}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label
+                  className="text-sm font-medium text-ios-dark/60 ml-1"
+                  htmlFor="border-radius-input"
+                >
+                  Border Radius
+                </label>
+                <Input
+                  id="border-radius-input"
+                  onChange={generateInputEventHandler(
+                    setStyleAttribute('borderRadius')
+                  )}
+                  value={borderRadius}
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label
+                  className="text-sm font-medium text-ios-dark/60 ml-1"
+                  htmlFor="border-width-input"
+                >
+                  Border Width
+                </label>
+                <Input
+                  id="border-width-input"
+                  onChange={generateInputEventHandler(
+                    setStyleAttribute('borderWidth')
+                  )}
+                  value={borderWidth}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                className="text-sm font-medium text-ios-dark/60 ml-1"
+                htmlFor="padding-input"
+              >
+                Padding
+              </label>
+              <Input
+                id="padding-input"
+                onChange={generateInputEventHandler(
+                  setStyleAttribute('padding')
+                )}
+                value={padding}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                className="text-sm font-medium text-ios-dark/60 ml-1"
+                htmlFor="content-input"
+              >
+                Note Content
+              </label>
+              <Input
+                className="w-full"
+                id="content-input"
+                onChange={generateInputEventHandler(setText)}
+                placeholder="What's on your mind?"
+                value={text}
+                variant="multiline"
+              />
+            </div>
+          </div>
+        )}
+      </Card.Body>
+    </Card>
   )
 }

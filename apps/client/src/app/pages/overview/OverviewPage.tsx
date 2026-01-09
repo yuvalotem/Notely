@@ -26,7 +26,7 @@ export default function OverviewPage() {
 
   return (
     <PageContainer>
-      <PageBody className="flex flex-col h-full gap-10">
+      <PageBody className="flex flex-col gap-2">
         <div className="flex flex-col gap-4 max-w-3xl">
           <h2 className="text-4xl font-extrabold tracking-tight text-ios-dark">
             The Future of Release Notes
