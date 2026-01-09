@@ -6,7 +6,7 @@ const buttonStyles = cva(
   [
     'font-medium',
     'border',
-    'rounded-full',
+    'rounded-xl',
     'cursor-pointer',
     'transition-all',
     'duration-200',
@@ -27,11 +27,10 @@ const buttonStyles = cva(
           'hover:shadow-lg',
         ],
         secondary: [
-          'bg-white/50',
-          'backdrop-blur-sm',
+          'bg-ios-gray-200',
           'text-ios-dark',
-          'border-white/20',
-          'hover:bg-white/80',
+          'border-transparent',
+          'hover:bg-ios-gray-300',
           'shadow-sm',
         ],
         text: ['text-ios-blue', 'border-none', 'hover:bg-ios-blue/10'],
@@ -43,9 +42,9 @@ const buttonStyles = cva(
         ],
       },
       size: {
-        small: ['text-xs', 'py-0.5', 'px-1'],
-        medium: ['text-sm', 'py-1', 'px-2'],
-        large: ['text-base', 'py-2', 'px-4'],
+        small: ['text-xs', 'py-1', 'px-3'],
+        medium: ['text-sm', 'py-1.5', 'px-4'],
+        large: ['text-base', 'py-2', 'px-6'],
       },
       disabled: {
         true: ['cursor-not-allowed', 'opacity-50'],
