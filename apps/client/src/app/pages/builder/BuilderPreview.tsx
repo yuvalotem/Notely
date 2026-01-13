@@ -1,16 +1,12 @@
-import { useEffect, useRef } from 'react'
-
 import { Card } from '../../components'
 import { useBuilderContext } from './BuilderContext'
 
 /**
  * This component renders a preview of what the user is building.
  * It displays the text with the current style applied to it.
- * It also keeps track of the outerHTML of the div and updates the
- * source code in the context with it.
  */
 export function BuilderPreview() {
-  const { text, style, setSourceCode } = useBuilderContext()
+  const { text, style } = useBuilderContext()
 
   const {
     backgroundColor,
@@ -21,13 +17,6 @@ export function BuilderPreview() {
     height,
     color,
   } = style ?? {}
-
-  const embeddedElementRef = useRef<HTMLDivElement>(null)
-  const sourceCode = embeddedElementRef.current?.outerHTML
-
-  useEffect(() => {
-    setSourceCode(sourceCode)
-  }, [sourceCode, setSourceCode])
 
   return (
     <Card className="h-full flex flex-col">
@@ -42,7 +31,6 @@ export function BuilderPreview() {
         />
         <div
           className="shadow-2xl transition-all duration-300 ease-in-out hover:scale-[1.02] relative z-10"
-          ref={embeddedElementRef}
           style={{
             backgroundColor,
             borderRadius,

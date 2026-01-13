@@ -16,16 +16,27 @@ export class NotelyAppElement extends HTMLElement {
     })
   }
 
-  subscribeToNoteEvent() {
+  subscribeToNotificationEvent() {
     this.ioClient.connect()
     this.ioClient.emit('room', this.appId)
     this.ioClient.on('connect', () => {})
-    this.ioClient.on('note:stream', (data: string) => {
-      this.innerHTML = data
-    })
+    this.ioClient.on(
+      'notification:stream',
+      (data: { text: string; style: Record<string, string | number> }) => {
+        const { text, style } = data
+
+        this.innerHTML = `<div>${text}</div>`
+
+        const div = this.querySelector('div')
+
+        if (div && style) {
+          Object.assign(div.style, style)
+        }
+      }
+    )
   }
 
   connectedCallback() {
-    this.subscribeToNoteEvent()
+    this.subscribeToNotificationEvent()
   }
 }

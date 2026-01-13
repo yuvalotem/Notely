@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 
-import { NoteGateway } from './stream.gateway'
+import { NotificationGateway } from './stream.gateway'
 
 @Module({
-  providers: [NoteGateway],
+  providers: [NotificationGateway],
 })
 export class EventsModule {}

@@ -17,12 +17,12 @@ export function BuilderSettings() {
         </label>
         <label className="flex flex-col gap-2">
           <span className="text-sm font-medium text-ios-dark/60 ml-1">
-            Note Name
+            Notification Name
           </span>
           <Input
-            id="note-name-input"
+            id="notification-name-input"
             onValueChange={setName}
-            placeholder="Enter note name..."
+            placeholder="Enter notification name..."
             value={name}
           />
         </label>

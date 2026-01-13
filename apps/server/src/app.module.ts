@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { ApplicationsModlue } from './applications'
 import { ApplicationEntitiy } from './applications/application.entitiy'
-import { NotesModlue } from './notes'
-import { NoteEntitiy } from './notes/note.entitiy'
+import { NotificationsModule } from './notifications'
+import { NotificationEntity } from './notifications/notification.entity'
 import { EventsModule } from './stream'
 
 @Module({
@@ -17,13 +17,13 @@ import { EventsModule } from './stream'
       password: '12345678',
       database: 'test',
       entities: [
-        NoteEntitiy,
+        NotificationEntity,
         ApplicationEntitiy,
         `${__dirname}./**/*.entity.{js,ts}`,
       ],
       synchronize: true,
     }),
-    NotesModlue,
+    NotificationsModule,
     ApplicationsModlue,
     EventsModule,
   ],

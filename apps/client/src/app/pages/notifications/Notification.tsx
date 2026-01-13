@@ -1,20 +1,19 @@
-import parseStringfyHtmlToReactElement from 'html-react-parser'
-
 import { Card } from '../../components'
-import NoteMenu from './NoteMenu'
-import { NoteProps } from './types'
+import NotificationMenu from './NotificationMenu'
+import { NotificationProps } from './types'
 
-export function Note(props: NoteProps) {
+export function Notification(props: NotificationProps) {
   const { component, name } = props
+  const { text, style } = component
 
   return (
     <Card className="w-fit mt-2 border-[1px] p-2 max-h-80 overflow-scroll">
       <Card.Header className="flex flex-row justify-between mb-4 items-center min-w-40">
         {name}
-        <NoteMenu {...props} />
+        <NotificationMenu {...props} />
       </Card.Header>
       <Card.Body>
-        {component && parseStringfyHtmlToReactElement(component)}
+        <div style={style}>{text}</div>
       </Card.Body>
     </Card>
   )

@@ -1,5 +1,5 @@
 export enum QueryKeys {
-  Notes = 'notes',
-  Note = 'note',
+  Notifications = 'notifications',
+  Notification = 'notification',
   Applications = 'Applications',
 }

@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class NoteEntitiy {
+export class NotificationEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 

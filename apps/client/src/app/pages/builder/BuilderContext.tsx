@@ -9,8 +9,6 @@ import {
 } from 'react'
 
 type BuilderContextValues = {
-  sourceCode?: string
-  setSourceCode: (text?: string) => void
   text: string
   setText: (text: string) => void
   name?: string
@@ -22,8 +20,6 @@ type BuilderContextValues = {
 }
 
 const BuilderContext = createContext<BuilderContextValues>({
-  sourceCode: '',
-  setSourceCode: () => {},
   text: '',
   setText: () => {},
   name: '',
@@ -48,29 +44,29 @@ const DEFAULT_STYLE: CSSProperties = {
 
 export function BuilderContextProvider({
   children,
-  noteAppId,
-  noteName,
-}: PropsWithChildren<{ noteAppId?: string; noteName?: string }>) {
-  const [sourceCode, setSourceCode] = useState<string>()
+  notificationAppId,
+  notificationName,
+}: PropsWithChildren<{
+  notificationAppId?: string
+  notificationName?: string
+}>) {
   const [style, setStyle] = useState<CSSProperties | undefined>(DEFAULT_STYLE)
-  const [text, setText] = useState('This is my new note!')
-  const [name, setName] = useState(noteName)
-  const [appId, setAppId] = useState<string | undefined>(noteAppId)
+  const [text, setText] = useState('This is my new notification!')
+  const [name, setName] = useState(notificationName)
+  const [appId, setAppId] = useState<string | undefined>(notificationAppId)
 
   useEffect(() => {
-    setName(noteName)
-  }, [noteName])
+    setName(notificationName)
+  }, [notificationName])
 
   useEffect(() => {
-    setAppId(noteAppId)
-  }, [noteAppId])
+    setAppId(notificationAppId)
+  }, [notificationAppId])
 
   return (
     <BuilderContext.Provider
       value={useMemo(
         () => ({
-          sourceCode,
-          setSourceCode,
           text,
           setText,
           appId,
@@ -80,18 +76,7 @@ export function BuilderContextProvider({
           name,
           setName,
         }),
-        [
-          sourceCode,
-          setSourceCode,
-          text,
-          setText,
-          appId,
-          setAppId,
-          style,
-          setStyle,
-          name,
-          setName,
-        ]
+        [text, setText, appId, setAppId, style, setStyle, name, setName]
       )}
     >
       {children}

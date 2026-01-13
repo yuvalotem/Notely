@@ -5,7 +5,11 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { appRoutes } from './routes'
 
 const OverviewPage = lazy(() => import('./pages/overview/OverviewPage'))
-const MyNotesPage = lazy(() => import('./pages/my-notes/MyNotesPage'))
+
+const NotificationsPage = lazy(
+  () => import('./pages/notifications/NotificationsPage')
+)
+
 const BuilderPage = lazy(() => import('./pages/builder/BuilderPage'))
 
 const ApplicationsPage = lazy(
@@ -14,9 +18,9 @@ const ApplicationsPage = lazy(
 
 const pathComponentMap: Record<string, FunctionComponent> = {
   [appRoutes.overview.path]: OverviewPage,
-  [appRoutes.notes.path]: MyNotesPage,
-  [appRoutes.note.path]: BuilderPage,
-  [appRoutes.createNote.path]: BuilderPage,
+  [appRoutes.notifications.path]: NotificationsPage,
+  [appRoutes.notification.path]: BuilderPage,
+  [appRoutes.createNotification.path]: BuilderPage,
   [appRoutes.applications.path]: ApplicationsPage,
 }
 

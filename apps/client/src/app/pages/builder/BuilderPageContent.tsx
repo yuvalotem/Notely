@@ -1,90 +1,73 @@
 import { CircularProgress, Tooltip } from '@mui/material'
-import parseStringfyHtmlToReactElement from 'html-react-parser'
-import { CSSProperties, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { Button } from '../../components'
-import { useNoteActions } from '../../hooks'
+import { useNotificationActions } from '../../hooks'
 import { PageBody, PageContainer, PageHeader } from '../../layout'
-import { NoteProps } from '../my-notes'
+import { NotificationProps } from '../notifications'
 import { BuilderSettings } from './builder-settings'
 import { useBuilderContext } from './BuilderContext'
 import { BuilderPreview } from './BuilderPreview'
 import { StyleBar } from './StyleBar'
 
 const getSaveButtonDisabledState = ({
-  sourceCode,
+  text,
   name,
   appId,
   loading,
 }: {
-  sourceCode?: string
+  text?: string
   name?: string
   appId?: string
   loading: boolean
 }) => {
-  const isDisabled = !sourceCode || !name || !appId || loading
+  const isDisabled = !text || !name || !appId || loading
 
-  return { isDisabled, message: isDisabled ? 'Nothing to change' : '' }
+  return { isDisabled, message: isDisabled ? 'Nothing to update' : '' }
 }
-
-type ReactElementProps = { children: string; style: CSSProperties }
-
-type ElementType = (React.JSX.Element | React.JSX.Element[]) & {
-  props: ReactElementProps
-}
-
-const elementTypeGuard = (
-  element: string | React.JSX.Element | React.JSX.Element[]
-): element is ElementType => typeof element === 'object' && 'props' in element
 
 export function BuilderPageContent({
-  note,
+  notification,
   loading,
 }: {
-  note?: NoteProps
+  notification?: NotificationProps
   loading: boolean
 }) {
-  const { sourceCode, appId, name, setSourceCode, setText, setStyle } =
-    useBuilderContext()
+  const { text, appId, name, setText, setStyle, style } = useBuilderContext()
 
-  const { createNote, updateNote } = useNoteActions({
-    id: note?.id,
+  const { createNotification, updateNotification } = useNotificationActions({
+    id: notification?.id,
     name,
   })
 
   useEffect(() => {
-    if (!note) {
+    if (!notification) {
       return
     }
 
-    setSourceCode(note.component)
-    const parsedElement = parseStringfyHtmlToReactElement(note.component)
-
-    if (elementTypeGuard(parsedElement)) {
-      const { children, style } = parsedElement.props as ReactElementProps
-
-      setText(children)
-      setStyle(style)
-    }
-  }, [note, setSourceCode, setStyle, setText])
+    setText(notification.component.text)
+    setStyle(notification.component.style)
+  }, [notification, setStyle, setText])
 
   const onCreate = () => {
-    if (!sourceCode) {
+    if (!text) {
       return
     }
 
-    const payload = { body: { component: sourceCode, appId, name } }
+    const payload = {
+      body: { component: { text, style: style ?? {} }, appId, name },
+    }
 
-    if (note) {
-      updateNote(payload)
+    if (notification) {
+      updateNotification(payload)
     } else {
-      createNote(payload)
+      createNotification(payload)
     }
   }
 
   const { isDisabled: isSavedDisabled, message: saveDisabledMessage } =
     getSaveButtonDisabledState({
-      sourceCode,
+      text,
       name,
       appId,
       loading,
@@ -96,11 +79,11 @@ export function BuilderPageContent({
         actions={
           <Tooltip placement="top" title={saveDisabledMessage}>
             <Button disabled={isSavedDisabled} onClick={onCreate}>
-              {note ? 'Edit' : 'Build'}
+              {notification ? 'Edit' : 'Build'}
             </Button>
           </Tooltip>
         }
-        title={note ? 'Edit Note' : 'Build Note'}
+        title={notification ? 'Edit Notification' : 'Build Notification'}
       />
       <PageBody>
         {loading ? (

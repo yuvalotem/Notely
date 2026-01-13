@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 
 import { QueryKeys, useQueryData } from '../../api'
-import { NoteProps } from '../my-notes'
+import { NotificationProps } from '../notifications'
 import { BuilderContextProvider } from './BuilderContext'
 import { BuilderPageContent } from './BuilderPageContent'
 
@@ -11,16 +11,22 @@ export default function BuilderPage() {
   const {
     isFetching,
     isLoading,
-    data: note,
-  } = useQueryData<NoteProps>({
-    url: `notes/${id}`,
-    queryKey: [QueryKeys.Note, ...(id ? [id] : [])],
+    data: notification,
+  } = useQueryData<NotificationProps>({
+    url: `notifications/${id}`,
+    queryKey: [QueryKeys.Notification, ...(id ? [id] : [])],
     enabled: !!id,
   })
 
   return (
-    <BuilderContextProvider noteAppId={note?.appId} noteName={note?.name}>
-      <BuilderPageContent loading={isFetching || isLoading} note={note} />
+    <BuilderContextProvider
+      notificationAppId={notification?.appId}
+      notificationName={notification?.name}
+    >
+      <BuilderPageContent
+        loading={isFetching || isLoading}
+        notification={notification}
+      />
     </BuilderContextProvider>
   )
 }

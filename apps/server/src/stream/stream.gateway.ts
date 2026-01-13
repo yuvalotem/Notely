@@ -10,10 +10,10 @@ import {
 import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway()
-export class NoteGateway
+export class NotificationGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  private readonly logger = new Logger(NoteGateway.name)
+  private readonly logger = new Logger(NotificationGateway.name)
 
   @WebSocketServer() io: Server
 
@@ -28,7 +28,7 @@ export class NoteGateway
   }
 
   handleDisconnect(client: { id: string }) {
-    this.logger.log(`Cliend id:${client.id} disconnected`)
+    this.logger.log(`Client id:${client.id} disconnected`)
   }
 
   @SubscribeMessage('room')
@@ -37,18 +37,21 @@ export class NoteGateway
     socket.join(roomId)
   }
 
-  @SubscribeMessage('note:publish')
+  @SubscribeMessage('notification:publish')
   handleMessage(
     client: { id: string },
-    data: { content: string; roomId: string }
+    data: {
+      content: { text: string; style: Record<string, unknown> }
+      roomId: string
+    }
   ) {
     this.logger.log(`Message received from client ID: ${client.id}`)
     const { content, roomId } = data
 
-    this.io.to(roomId).emit('note:stream', content)
+    this.io.to(roomId).emit('notification:stream', content)
 
     return {
-      event: 'note:stream',
+      event: 'notification:stream',
       data,
     }
   }

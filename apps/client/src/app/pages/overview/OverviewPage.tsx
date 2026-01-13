@@ -6,11 +6,11 @@ import { appRoutes } from '../../routes/routes'
 
 const introducers = [
   {
-    title: 'Release Management',
+    title: 'Notification Management',
     description:
-      'Empower your team to draft and publish beautifully formatted release notes. Streamline your workflow and deliver updates to your users without engineering bottlenecks.',
-    path: appRoutes.notes.path,
-    cta: 'Manage Notes',
+      'Empower your team to draft and publish beautifully formatted notifications. Streamline your workflow and deliver updates to your users without engineering bottlenecks.',
+    path: appRoutes.notifications.path,
+    cta: 'Manage Notifications',
   },
   {
     title: 'Application Ecosystem',
@@ -29,11 +29,11 @@ export default function OverviewPage() {
       <PageBody className="flex flex-col gap-2">
         <div className="flex flex-col gap-4 max-w-3xl">
           <h2 className="text-4xl font-extrabold tracking-tight text-ios-dark">
-            The Future of Release Notes
+            The Future of App Notifications
           </h2>
           <p className="text-xl text-ios-dark/60 leading-relaxed">
             Notely simplifies how you communicate product changes. Manage,
-            deploy, and scale your release documentation from a single,
+            deploy, and scale your application notifications from a single,
             centralized command center.
           </p>
         </div>

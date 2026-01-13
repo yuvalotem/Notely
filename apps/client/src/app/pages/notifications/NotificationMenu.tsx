@@ -1,6 +1,6 @@
 import CellTowerIcon from '@mui/icons-material/CellTower'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import EditNoteIcon from '@mui/icons-material/EditNote'
+import EditIcon from '@mui/icons-material/Edit'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { IconButton } from '@mui/material'
 import Menu from '@mui/material/Menu'
@@ -9,14 +9,14 @@ import * as React from 'react'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useNoteActions } from '../../hooks'
-import { DeleteNoteDialog } from './DeleteNoteDialog'
-import { NoteProps } from './types'
+import { useNotificationActions } from '../../hooks'
+import { DeleteNotificationDialog } from './DeleteNotificationDialog'
+import { NotificationProps } from './types'
 
-export default function NoteMenu({ id, name }: NoteProps) {
+export default function NotificationMenu({ id, name }: NotificationProps) {
   const navigate = useNavigate()
   const [isDeleteDialogVisible, setDeleteDialogVisiblity] = useState(false)
-  const { pushNote } = useNoteActions({ id, name })
+  const { pushNotification } = useNotificationActions({ id, name })
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isOpen = !!anchorEl
 
@@ -32,12 +32,12 @@ export default function NoteMenu({ id, name }: NoteProps) {
     () => [
       {
         label: 'Edit',
-        onClick: () => navigate(`/note/${id}`),
-        Icon: EditNoteIcon,
+        onClick: () => navigate(`/notification/${id}`),
+        Icon: EditIcon,
       },
       {
         label: 'Publish',
-        onClick: () => pushNote(),
+        onClick: () => pushNotification(),
         Icon: CellTowerIcon,
       },
       {
@@ -46,7 +46,7 @@ export default function NoteMenu({ id, name }: NoteProps) {
         Icon: DeleteOutlineIcon,
       },
     ],
-    [id, navigate, pushNote, setDeleteDialogVisiblity]
+    [id, navigate, pushNotification, setDeleteDialogVisiblity]
   )
 
   return (
@@ -62,7 +62,7 @@ export default function NoteMenu({ id, name }: NoteProps) {
       </IconButton>
       <Menu
         MenuListProps={{
-          'aria-labelledby': 'note menu',
+          'aria-labelledby': 'notification menu',
           sx: {
             width: '12rem',
           },
@@ -91,7 +91,7 @@ export default function NoteMenu({ id, name }: NoteProps) {
           </MenuItem>
         ))}
       </Menu>
-      <DeleteNoteDialog
+      <DeleteNotificationDialog
         id={id}
         isOpen={isDeleteDialogVisible}
         name={name}

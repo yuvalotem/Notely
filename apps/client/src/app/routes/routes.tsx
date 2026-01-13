@@ -1,7 +1,7 @@
 import AppsIcon from '@mui/icons-material/Apps'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import Note from '@mui/icons-material/Note'
-import NotesIcon from '@mui/icons-material/Notes'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { SvgIconProps } from '@mui/material'
 import { FunctionComponent } from 'react'
 
@@ -24,23 +24,23 @@ export const nestedAppRoutes: NestedAppRoutes = {
     title: 'Overview',
     Icon: DashboardIcon,
   },
-  notes: {
-    path: '/notes',
-    title: 'Notes',
-    Icon: NotesIcon,
+  notifications: {
+    path: '/notifications',
+    title: 'Notifications',
+    Icon: NotificationsIcon,
     sub: {
-      createNote: {
+      createNotification: {
         path: '/create',
-        title: 'Create Note',
+        title: 'Create Notification',
         Icon: DashboardIcon,
         hiddenFromNavbar: true,
       },
     },
   },
-  note: {
-    path: '/note/:id',
-    title: 'Note',
-    Icon: Note,
+  notification: {
+    path: '/notification/:id',
+    title: 'Notification',
+    Icon: NotificationsActiveIcon,
     hiddenFromNavbar: true,
   },
   applications: {
@@ -82,10 +82,10 @@ const flattenRoutes = (routes: NestedAppRoutes): Record<string, RouteOptions> =>
 export const appRoutes = flattenRoutes(nestedAppRoutes)
 
 // Custom matchers for specific routes that don't follow the default hierarchy
-appRoutes.notes.matcher = (pathname: string) =>
-  pathname === appRoutes.notes.path ||
-  pathname.startsWith(`${appRoutes.notes.path}/`) ||
-  pathname.startsWith('/note/')
+appRoutes.notifications.matcher = (pathname: string) =>
+  pathname === appRoutes.notifications.path ||
+  pathname.startsWith(`${appRoutes.notifications.path}/`) ||
+  pathname.startsWith('/notification/')
 
 export const isRouteActive = (path: string, pathname: string) => {
   const route = Object.values(appRoutes).find((r) => r.path === path)
