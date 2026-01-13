@@ -44,7 +44,7 @@ export function BuilderPreview() {
             overflow: 'hidden',
           }}
         >
-          {text}
+          {text || <div>Your content here...</div>}
         </div>
       </Card.Body>
     </Card>

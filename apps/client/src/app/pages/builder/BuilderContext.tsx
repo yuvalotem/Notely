@@ -51,7 +51,7 @@ export function BuilderContextProvider({
   notificationName?: string
 }>) {
   const [style, setStyle] = useState<CSSProperties | undefined>(DEFAULT_STYLE)
-  const [text, setText] = useState('This is my new notification!')
+  const [text, setText] = useState('')
   const [name, setName] = useState(notificationName)
   const [appId, setAppId] = useState<string | undefined>(notificationAppId)
 
